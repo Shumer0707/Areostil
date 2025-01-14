@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+    .rotate-y--40 {
+      transform: rotateY(-40deg);
+    }
+    .rotate-y--30 {
+      transform: rotateY(-30deg);
+    }
+    .rotate-y--20 {
+      transform: rotateY(-20deg);
+    }
+}

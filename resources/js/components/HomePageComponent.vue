@@ -1,7 +1,7 @@
 <template>
     <div ref="container" class="w-full h-screen overflow-hidden">
         <div v-for="(component, index) in components" :key="index" class="w-full h-screen">
-            <component :is="component" />
+            <component :is="component" :isActive="currentIndex === index" />
         </div>
     </div>
 </template>
@@ -19,18 +19,19 @@ export default {
         SliderComponent,
         AboutUsComponent,
         GaleryComponent,
-        VideoCarouselComponent
+        VideoCarouselComponent,
     },
 
     data() {
         return {
             components: [
                 'SliderComponent',
-                'AboutUsComponent',
+                // 'AboutUsComponent',
                 'GaleryComponent',
-                // 'VideoCarouselComponent'
+                // 'VideoCarouselComponent,'
             ],
             currentIndex: 0,
+            totalBlocks: 1,
             lastScrollTime: 0, // Время последней прокрутки
             scrollDelay: 1000, // Задержка между прокрутками (в миллисекундах)
             touchStartY: 0 // Начальная позиция касания
@@ -38,6 +39,7 @@ export default {
     },
 
     mounted() {
+        this.checkCurrentBlock();
         window.addEventListener('wheel', this.handleScroll);
         window.addEventListener('touchstart', this.handleTouchStart);
         window.addEventListener('touchend', this.handleTouchEnd);
@@ -50,6 +52,10 @@ export default {
     },
 
     methods: {
+        checkCurrentBlock() {
+            // Устанавливаем флаг showFooter, если текущий блок — последний
+            window.showFooter = (this.currentIndex === this.totalBlocks);
+        },
         handleScroll(event) {
             const currentTime = Date.now();
             if (currentTime - this.lastScrollTime < this.scrollDelay) return;
@@ -86,6 +92,7 @@ export default {
         nextBlock() {
             if (this.currentIndex < this.components.length - 1) {
                 this.currentIndex++;
+                this.checkCurrentBlock();
                 this.scrollToBlock();
             }
         },
@@ -93,16 +100,16 @@ export default {
         previousBlock() {
             if (this.currentIndex > 0) {
                 this.currentIndex--;
+                this.checkCurrentBlock();
                 this.scrollToBlock();
             }
         },
 
         scrollToBlock() {
             const container = this.$refs.container;
-            if (!container) return; // Проверяем, существует ли контейнер
-
             const targetPosition = this.currentIndex * window.innerHeight;
             container.scrollTo({ top: targetPosition, behavior: 'smooth' });
+            this.checkCurrentBlock();
         }
     }
 };
