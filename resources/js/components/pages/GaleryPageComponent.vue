@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import GaleryComponent from './galery/GaleryComponent.vue';
+import GaleryComponent from '../galery/GaleryComponent.vue';
 export default {
     name: 'GaleryPageComponent',
 

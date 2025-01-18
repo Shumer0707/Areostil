@@ -42,6 +42,8 @@ export default {
             },
             translate: {
                 '1000': '1000px', // Добавляем класс translate-x-150 для сдвига на 150 пикселей
+                'full': '100%',
+                '0': '0',
             },
             zIndex: {
                 60: '60',
@@ -51,7 +53,7 @@ export default {
             rotate: {
                 '-40deg': '-40deg',
                 '40deg': '40deg',
-            }
+            },
         },
     },
     plugins: [],

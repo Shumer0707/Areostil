@@ -1,5 +1,5 @@
 <template>
-    <section id="slider-section" class="relative w-full h-screen">
+    <section id="slider-section" class="relative w-full h-screen overflow-hidden">
       <div class="inset-0 w-full h-full overflow-hidden relative">
         <div v-for="(slide, index) in slides" :key="index" class="absolute inset-0">
           <img

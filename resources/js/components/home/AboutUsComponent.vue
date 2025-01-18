@@ -1,8 +1,8 @@
 <template>
-    <section class="relative w-full h-screen flex items-center justify-between bg-cover bg-center"
-      :style="{ backgroundImage: 'url(/img/home/about/back.jpg)' }">
+    <section class="relative w-full h-screen flex items-center justify-between bg-cover bg-center overflow-hidden">
+      <!-- :style="{ backgroundImage: 'url(/img/home/about/back.jpg)' }"> -->
       <!-- Полупрозрачный слой затемнения -->
-      <div class="absolute inset-0 bg-primary bg-opacity-50"></div>
+      <!-- <div class="absolute inset-0 bg-primary bg-opacity-50"></div> -->
 
       <!-- Блок с фото верх -->
       <div class="absolute top-0 w-full h-1/3 flex z-10">
