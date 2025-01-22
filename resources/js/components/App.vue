@@ -13,28 +13,6 @@ export default {
   components: {
     HeaderComponent,
     FooterComponent
-  },
-  data() {
-    return {
-      currentBlock: 0, // Текущий активный блок
-      totalBlocks: 0   // Общее количество блоков на странице
-    };
-  },
-  provide() {
-    return {
-      // Делаем доступными для всех дочерних компонентов
-      currentBlock: () => this.currentBlock,
-      totalBlocks: () => this.totalBlocks,
-      disableScroll: this.disableScroll,
-      enableScroll: this.enableScroll
-    };
-  },
-  methods: {
-    // Обновляет глобальное состояние блоков
-    updateCurrentBlock(current, total) {
-      this.currentBlock = current;
-      this.totalBlocks = total;
-    }
   }
 };
 </script>

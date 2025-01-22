@@ -15,6 +15,7 @@ import SliderComponent from '../home/SliderComponent.vue';
 import AboutUsComponent from '../home/AboutUsComponent.vue';
 import GaleryComponent from '../home/GaleryComponent.vue';
 import VideoCarouselComponent from '../home/VideoCarouselComponent.vue';
+import { usePageState } from '@/store/pageState';
 
 export default {
     name: 'HomeComponent',
@@ -27,6 +28,17 @@ export default {
         VideoCarouselComponent,
     },
 
+    setup() {
+        const pageState = usePageState();
+
+        const isActive = (index) => {
+            // Определяем, активен ли текущий компонент
+            return pageState.currentBlock === index;
+        };
+
+        return { pageState, isActive };
+    },
+
     data() {
         return {
             components: [
@@ -36,16 +48,7 @@ export default {
                 'VideoCarouselComponent'
             ]
         };
-    },
-
-    inject: ['currentBlock'], // Получаем текущий блок из PageWrapper
-
-    methods: {
-        isActive(index) {
-            // Определяем, активен ли текущий компонент
-            return this.currentBlock() === index;
-        }
-    },
+    }
 };
 </script>
 

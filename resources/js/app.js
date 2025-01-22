@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import { createPinia } from 'pinia';
 import App from './components/App.vue';
 import router from './components/router';
 
@@ -7,12 +8,13 @@ router.afterEach((to) => {
   });
 
 const app = createApp(App);
+const pinia = createPinia();
 
 // Добавляем глобальный метод $getImageUrl
 app.config.globalProperties.$getImageUrl = (path) => {
     return `${import.meta.env.VITE_APP_URL}${path}`;
 };
-
+app.use(pinia);
 app.use(router).mount('#app');
 
 // import { createApp } from 'vue';
