@@ -1,84 +1,67 @@
 <template>
+    <!-- контрольная -->
     <header
-        :class="[
-            'fixed z-30 transition-all duration-1000 transform ease-in-out text-white',
-            isTop && !isTransitioning ? 'top-0 right-0 w-full h-40 flex-row px-32 py-8' :
-            isTransitioning ? 'top-0 right-0 w-36 h-40 flex-row px-8 py-8 bg-my_black' :
-            'top-0 right-0 h-screen flex-col py-8 px-8 bg-my_black'
+        @animationend="handleAnimationEnd"
+        :class="[animationHeader,
+            'fixed z-30 transition-all duration-1000 transform ease-in-out text-my_white top-0 right-0 w-full h-40 px-4 py-4',
+            'md:px-8',
+            'lg:px-16',
         ]"
     >
-        <div
-            :class="[
-                'text-xl font-bold transition-all duration-500 ease-in-out flex items-center justify-center ',
-                isTop && !isTransitioning ? 'opacity-100 scale-100 w-32 h-32' :
-                isTransitioning ? 'opacity-0 scale-50 w-20 h-20' :
-                'opacity-100 scale-100 w-20 h-20 mx-auto'
-            ]"
-        >
-            <a href=""><img :src="$getImageUrl('/img/logo/log-1.png')" alt="Areostil logo" class=""></a>
-        </div>
+        <!-- логотип -->
+        <HeaderLogoComponent></HeaderLogoComponent>
         <!-- кнопки -->
-        <div
-            :class="[
-                'flex gap-8 transition-all duration-1000 ease-in-out items-center',
-                isTop ? 'flex-row': 'flex-col py-8 flex-col-reverse'
-            ]"
-        >
-            <!-- язык -->
-            <button
-                :class="[
-                    'w-12 h-12 bg-transparent rounded-full flex items-center justify-center border-2 border-white transition-transform duration-1000 ease-in-out',
-                    isTop && !isTransitioning ? 'scale-100' :
-                    isTransitioning ? 'scale-50' :
-                    'scale-100'
-                ]"
-            >
-                Ru
-            </button>
-            <!-- меню -->
-            <button
-                :class="[
-                    'w-16 h-16 bg-transparent border-2 border-white rounded-full font-bold flex items-center justify-center transition-transform duration-1000 ease-in-out',
-                    isTop && !isTransitioning ? 'scale-100' :
-                    isTransitioning ? 'scale-50' :
-                    'scale-100'
-                ]"
-            >
-                ☰
-            </button>
-        </div>
+        <HeaderButtonComponent></HeaderButtonComponent>
+        <!-- навигация -->
+        <HeaderNavComponent></HeaderNavComponent>
+        <!-- Выпадающее меню -->
+        <HeaderMenuComponent></HeaderMenuComponent>
+
     </header>
 </template>
 
 <script>
 import { computed, ref, watch } from 'vue';
 import { usePageState } from '../../store/pageState';
+import { useHeaderState } from '../../store/headerState';
+import HeaderButtonComponent from '../header/HeaderButtonComponent.vue';
+import HeaderLogoComponent from '../header/HeaderLogoComponent.vue';
+import HeaderNavComponent from '../header/HeaderNavComponent.vue';
+import HeaderMenuComponent from '../header/HeaderMenuComponent.vue';
 
 export default {
     name: "HeaderComponent",
-
+    components: {
+        HeaderButtonComponent,
+        HeaderLogoComponent,
+        HeaderNavComponent,
+        HeaderMenuComponent
+    },
     setup() {
         const pageState = usePageState();
-        const isTransitioning = ref(false); // Флаг для анимации
+        const headerState = useHeaderState();
+        const animationState = ref("animation-none");
 
         const isTop = computed(() => pageState.currentBlock === 0);
+        const animationHeader = computed(() => headerState.animationHeader);
 
-        // Следим за изменением блока
         watch(isTop, (newValue) => {
-            if (!newValue) {
-                isTransitioning.value = true;
-                setTimeout(() => {
-                    isTransitioning.value = false; // Завершение анимации
-                }, 1000);
+            if (newValue) {
+                headerState.setAnimationHeader("animation-slide-up-start");
             } else {
-                isTransitioning.value = true;
-                setTimeout(() => {
-                    isTransitioning.value = false; // Завершение
-                }, 1000);
+                headerState.setAnimationHeader("animation-slide-down-start");
             }
         });
 
-        return { isTop, isTransitioning};
+        const handleAnimationEnd = (event) => {
+            if (event.animationName === "downStart") {
+                animationState.value = "downEnd";
+            } else if (event.animationName === "upStart") {
+                animationState.value = "upEnd";
+            }
+        };
+
+        return { isTop, animationState, handleAnimationEnd, animationHeader};
     }
 };
 </script>
@@ -93,4 +76,97 @@ header {
 header.flex-col {
     justify-content: flex-start;
 }
+
+@keyframes downStart {
+    0% {
+        width: 100%;
+        height: 10rem;
+        flex-direction: row;
+        padding-left: 8rem;
+        padding-right: 8rem;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+    49% {
+        flex-direction: row;
+        justify-content:space-between;
+    }
+    50% {
+        width: 8rem;
+        height: 10rem;
+        flex-direction: row;
+        padding: 2rem;
+        background-color: var(--color-my-black);
+    }
+    51% {
+        flex-direction: column;
+        justify-content:flex-start;
+    }
+    100% {
+        width: 8em;
+        height: 100vh;
+        flex-direction: column;
+        padding: 2rem;
+        justify-content: flex-start;
+        background-color: var(--color-my-black);
+    }
+}
+.downEnd {
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 8rem;
+    flex-direction: column;
+    padding: 2rem;
+    justify-content: flex-start;
+    background-color: var(--color-my-black)
+}
+@keyframes upStart {
+    0%{
+        height: 100vh;
+        width: 8rem;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 2rem;
+        background-color: var(--color-my-black);
+    }
+    49% {
+        flex-direction: column;
+        justify-content:flex-start;
+    }
+    50%{
+        width: 8rem;
+        height: 10rem;
+        padding: 2rem;
+        background-color: var(--color-my-black);
+    }
+    51% {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    100%{
+        width: 100%;
+        height: 10rem;
+        flex-direction: row;
+        padding-left: 8rem;
+        padding-right: 8rem;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+}
+.upEnd {
+    width: 100%;
+    height: 10rem;
+    flex-direction: row;
+    padding: 2rem 8rem;
+}
+.animation-slide-down-start {
+    animation: downStart 2s ease-in-out forwards;
+    animation-fill-mode: forwards;
+}
+.animation-slide-up-start {
+    animation: upStart 2s ease-in-out forwards;
+    animation-fill-mode: forwards;
+}
+
 </style>

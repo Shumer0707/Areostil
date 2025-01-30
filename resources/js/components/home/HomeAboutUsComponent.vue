@@ -29,7 +29,9 @@
         </p>
         <a
           href="/about"
-          class="text-my_black underline hover:no-underline font-bold">
+          class="text-my_black underline hover:no-underline font-bold"
+          :tabindex="isActive ? '0' : '-1'"
+        >
           Узнайте больше о нас
         </a>
       </div>

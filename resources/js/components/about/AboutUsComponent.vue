@@ -1,5 +1,5 @@
 <template>
-    <section class="relative w-full h-screen bg-gray-100 flex items-center justify-center">
+    <section class="relative w-full h-screen flex items-center justify-center">
       <!-- Анимация Плана Дома -->
       <svg
         xmlns="http://www.w3.org/2000/svg"

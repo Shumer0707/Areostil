@@ -11,10 +11,10 @@
 
 <script>
 import PageWrapper from '../wrappers/PageWrapper.vue';
-import SliderComponent from '../home/SliderComponent.vue';
-import AboutUsComponent from '../home/AboutUsComponent.vue';
-import GaleryComponent from '../home/GaleryComponent.vue';
-import VideoCarouselComponent from '../home/VideoCarouselComponent.vue';
+import HomeSliderComponent from '../home/HomeSliderComponent.vue';
+import HomeAboutUsComponent from '../home/HomeAboutUsComponent.vue';
+import HomeGaleryComponent from '../home/HomeGaleryComponent.vue';
+import HomeVideoCarouselComponent from '../home/HomeVideoCarouselComponent.vue';
 import { usePageState } from '@/store/pageState';
 
 export default {
@@ -22,10 +22,10 @@ export default {
 
     components: {
         PageWrapper,
-        SliderComponent,
-        AboutUsComponent,
-        GaleryComponent,
-        VideoCarouselComponent,
+        HomeSliderComponent,
+        HomeAboutUsComponent,
+        HomeGaleryComponent,
+        // HomeVideoCarouselComponent,
     },
 
     setup() {
@@ -42,10 +42,10 @@ export default {
     data() {
         return {
             components: [
-                'SliderComponent',
-                'AboutUsComponent',
-                'GaleryComponent',
-                'VideoCarouselComponent'
+                'HomeSliderComponent',
+                'HomeAboutUsComponent',
+                'HomeGaleryComponent',
+                // 'HomeVideoCarouselComponent'
             ]
         };
     }
@@ -53,14 +53,7 @@ export default {
 </script>
 
 <style>
-html, body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    height: 100%;
-}
-
-.w-full.h-screen {
+/* .w-full.h-screen {
     top: 0;
     left: 0;
 }
@@ -75,5 +68,5 @@ html, body {
 
 .translate-y-full {
     transform: translateY(100%);
-}
+} */
 </style>

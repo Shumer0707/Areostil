@@ -7,17 +7,19 @@
         </div>
         <!-- Футер -->
         <footer
-            class="w-full bg-my_black text-my_white py-6 fixed bottom-0 left-0 z-50 transition-transform duration-500"
+            class="w-full bg-my_black text-my_white py-6 fixed bottom-0 left-0 z-20 transition-transform duration-500"
             :class="{ 'translate-y-0': pageState.showOverlay, 'translate-y-full': !pageState.showOverlay }">
             <div class="w-full px-32 flex justify-between items-center text-ml">
                 <div class=" font-bold text-primary">
-                    <a href=""><img :src="$getImageUrl('/img/logo/log-1.png')" alt="Areostil logo" class="w-32 h-32"></a>
+                    <a href="" :tabindex="pageState.showOverlay ? '0' : '-1'">
+                        <img :src="$getImageUrl('/img/logo/log-1.png')" alt="Areostil logo" class="w-32 h-32">
+                    </a>
                 </div>
                 <nav class="flex gap-4">
-                    <a href="/" class="hover:underline">Home</a>
-                    <a href="/about" class="hover:underline">About</a>
-                    <a href="/galery" class="hover:underline">Galery</a>
-                    <a href="/contact" class="hover:underline">Contact</a>
+                    <a href="/" class="hover:underline" :tabindex="pageState.showOverlay ? '0' : '-1'">Home</a>
+                    <a href="/about" class="hover:underline" :tabindex="pageState.showOverlay ? '0' : '-1'">About</a>
+                    <a href="/galery" class="hover:underline" :tabindex="pageState.showOverlay ? '0' : '-1'">Galery</a>
+                    <a href="/contact" class="hover:underline" :tabindex="pageState.showOverlay ? '0' : '-1'">Contact</a>
                 </nav>
                 <div >
                     <p class="py-2">Phone: +373987456321</p>

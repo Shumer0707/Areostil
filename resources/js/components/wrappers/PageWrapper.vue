@@ -1,6 +1,6 @@
 <template>
     <main ref="container" class="w-full h-screen overflow-hidden bg-cover bg-center"
-        :style="{ backgroundImage: 'url(/img/home/about/back.jpg)' }">
+        :style="{ backgroundImage: `url(${randomBackground})` }">
         <div class="absolute inset-0 bg-primary bg-opacity-50"></div>
         <!-- Слот для рендеринга дочерних компонентов -->
         <slot />
@@ -9,7 +9,7 @@
 
 <script>
 import { usePageState } from '@/store/pageState';
-
+import { ref, computed } from 'vue';
 export default {
   name: "PageWrapper",
   props: {
@@ -20,6 +20,18 @@ export default {
   },
   setup() {
     const pageState = usePageState();
+
+    // Массив с путями к изображениям
+    const backgrounds = [
+        '/img/back/back-1.jpg',
+        '/img/back/back-2.jpg',
+        '/img/back/back-3.jpg',
+    ];
+
+    // Функция для выбора случайного элемента из массива
+    const randomBackground = computed(() => {
+        return backgrounds[Math.floor(Math.random() * backgrounds.length)];
+    });
 
     const handleScroll = (event) => {
       if (pageState.scrollDisabled) return; // Блокируем прокрутку, если scroll отключён
@@ -52,15 +64,15 @@ export default {
       if (currentTime - pageState.lastScrollTime < pageState.scrollDelay) return;
 
       pageState.lastScrollTime = currentTime;
-      if (touchDelta < 50) {
-        // Свайп вверх
-        previousBlock();
-        pageState.disableBlockScroll();
-      } else if (touchDelta > -50) {
-        // Свайп вниз
-        nextBlock();
-        pageState.disableBlockScroll();
-      }
+        if (touchDelta > 50) {
+            event.preventDefault();
+            previousBlock();
+            pageState.disableBlockScroll();
+        } else if (touchDelta < -50) {
+            event.preventDefault();
+            nextBlock();
+            pageState.disableBlockScroll();
+        }
     };
 
     const nextBlock = () => {
@@ -77,7 +89,7 @@ export default {
       }
     };
 
-    return { pageState, handleScroll, handleTouchStart, handleTouchEnd };
+    return { pageState, handleScroll, handleTouchStart, handleTouchEnd, randomBackground };
   },
   mounted() {
     const pageState = usePageState();

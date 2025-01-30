@@ -17,7 +17,7 @@ export const usePageState = defineStore('pageState', {
     updateCurrentBlock(block) {
       // Обновляет текущий блок
       this.currentBlock = block;
-      console.log(`[Pinia] Current block updated: ${block}`);
+    //   console.log(`[Pinia] Current block updated: ${block}`);
     },
     updateTotalBlocks(total) {
       // Обновляет общее количество блоков
