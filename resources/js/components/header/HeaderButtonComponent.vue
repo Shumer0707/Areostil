@@ -1,6 +1,5 @@
 <template>
     <div
-        @animationend="handleAnimationEndButton"
         :class="[
             'relative flex gap-8 transition-all duration-1000 ease-in-out items-center order-2', animationHeaderButton
         ]"
@@ -13,11 +12,14 @@
         >
             Ru
         </button> -->
+        <div class="hidden">
+            <button class="w-12 h-12"></button>
+        </div>
         <button
-            data-id="menu-button"
             @click="headerState.toggleMainMenu"
             :class="[
-                'w-16 h-16 bg-transparent border-2 border-my_white rounded-full font-bold flex items-center justify-center transition-transform duration-1000 ease-in-out'
+                'bg-transparent border-2 border-my_white rounded-full font-bold flex items-center justify-center transition-all duration-1000 ease-in-out',
+                animationHeaderButton === 'animation-slide-down-start-button' ? 'md:w-16 md:h-16 w-12 h-12' : 'w-16 h-16',
             ]"
         >
             ☰
@@ -48,18 +50,15 @@ export default {
             }else if(newValue === 'animation-slide-down-start'){
                 animationHeaderButton.value = 'animation-slide-down-start-button';
             }
+            console.log(animationHeaderButton.value);
+
         });
 
-        // Обработчик окончания анимации
-        const handleAnimationEndButton = (event) => {
-            if (event.animationName === "downStartButton") {
-                animationHeaderButton.value = "downEndButton";
-            } else if (event.animationName === "upStartButton") {
-                animationHeaderButton.value = "upEndButton";
-            }
-        };
+        const buttonSizeClass = computed(() => {
+            return animationHeaderButton.value === 'animation-slide-down-start-button' ? 'w-12 h-12' : 'w-16 h-16';
+        });
 
-        return { animationHeaderButton, handleAnimationEndButton, headerState};
+        return { animationHeaderButton, headerState, buttonSizeClass};
     }
 };
 </script>
@@ -87,13 +86,6 @@ export default {
         opacity: 1;
     }
 }
-.downEndButton {
-    padding: 2rem 0 2rem 0;
-    flex-direction: column;
-    flex-direction: column-reverse;
-    opacity: 1;
-}
-
 /* Анимация для кнопки, когда меню разворачивается вверх */
 @keyframes upStartButton {
     0%{
@@ -116,10 +108,6 @@ export default {
         flex-direction: row;
         opacity: 1;
     }
-}
-.upEndButton {
-    flex-direction: row;
-    opacity: 1
 }
 
 /* Класс для анимации сворачивания вниз */

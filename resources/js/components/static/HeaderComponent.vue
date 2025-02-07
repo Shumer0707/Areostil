@@ -3,9 +3,9 @@
     <header
         @animationend="handleAnimationEnd"
         :class="[animationHeader,
-            'fixed z-30 transition-all duration-1000 transform ease-in-out text-my_white top-0 right-0 w-full h-40 px-4 py-4',
-            'md:px-8',
-            'lg:px-16',
+            'fixed z-30 transition-all duration-1000 transform ease-in-out text-my_white top-0 right-0 w-full h-32 px-4 py-8',
+            'md:h-40 md:px-16',
+            // 'lg:px-16',
         ]"
     >
         <!-- логотип -->
@@ -80,54 +80,42 @@ header.flex-col {
 @keyframes downStart {
     0% {
         width: 100%;
-        height: 10rem;
         flex-direction: row;
-        padding-left: 8rem;
-        padding-right: 8rem;
-        padding-top: 2rem;
-        padding-bottom: 2rem;
     }
     49% {
         flex-direction: row;
         justify-content:space-between;
     }
     50% {
-        width: 8rem;
-        height: 10rem;
+        width: 5rem;
+        height: 8rem;
         flex-direction: row;
-        padding: 2rem;
         background-color: var(--color-my-black);
     }
     51% {
+        padding: 1rem;
+        opacity: 0.8;
         flex-direction: column;
         justify-content:flex-start;
     }
     100% {
-        width: 8em;
+        opacity: 0.8;
+        width: 5rem;
         height: 100vh;
         flex-direction: column;
-        padding: 2rem;
+        padding: 1rem;
         justify-content: flex-start;
         background-color: var(--color-my-black);
     }
 }
-.downEnd {
-    top: 0;
-    right: 0;
-    height: 100vh;
-    width: 8rem;
-    flex-direction: column;
-    padding: 2rem;
-    justify-content: flex-start;
-    background-color: var(--color-my-black)
-}
 @keyframes upStart {
     0%{
+        opacity: 0.8;
         height: 100vh;
-        width: 8rem;
+        width: 5rem;
         flex-direction: column;
         justify-content: flex-start;
-        padding: 2rem;
+        padding: 1rem;
         background-color: var(--color-my-black);
     }
     49% {
@@ -135,9 +123,10 @@ header.flex-col {
         justify-content:flex-start;
     }
     50%{
-        width: 8rem;
-        height: 10rem;
-        padding: 2rem;
+        width: 5rem;
+        height: 8rem;
+        padding: 1rem;
+        opacity: 0.8;
         background-color: var(--color-my-black);
     }
     51% {
@@ -146,20 +135,96 @@ header.flex-col {
     }
     100%{
         width: 100%;
-        height: 10rem;
+        height: 8rem;
         flex-direction: row;
-        padding-left: 8rem;
-        padding-right: 8rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
         padding-top: 2rem;
         padding-bottom: 2rem;
     }
 }
-.upEnd {
+@media (min-width: 768px) {
+    @keyframes downStart {
+        0% {
+            width: 100%;
+            height: 10rem;
+            flex-direction: row;
+        }
+        49% {
+            flex-direction: row;
+            justify-content:space-between;
+        }
+        50% {
+            width: 8rem;
+            height: 10rem;
+            flex-direction: row;
+            padding: 2rem;
+            background-color: var(--color-my-black);
+        }
+        51% {
+            flex-direction: column;
+            justify-content:flex-start;
+        }
+        100% {
+            width: 8rem;
+            height: 100vh;
+            flex-direction: column;
+            padding: 2rem;
+            justify-content: flex-start;
+            background-color: var(--color-my-black);
+        }
+    }
+    @keyframes upStart {
+        0%{
+            height: 100vh;
+            width: 8rem;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: 2rem;
+            background-color: var(--color-my-black);
+        }
+        49% {
+            flex-direction: column;
+            justify-content:flex-start;
+        }
+        50%{
+            width: 8rem;
+            height: 10rem;
+            padding: 2rem;
+            background-color: var(--color-my-black);
+        }
+        51% {
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        100%{
+            width: 100%;
+            height: 10rem;
+            flex-direction: row;
+            padding-left: 4rem;
+            padding-right: 4rem;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+    }
+}
+/* .downEnd {
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 8rem;
+    flex-direction: column;
+    padding: 2rem;
+    justify-content: flex-start;
+    background-color: var(--color-my-black)
+} */
+
+/* .upEnd {
     width: 100%;
     height: 10rem;
     flex-direction: row;
     padding: 2rem 8rem;
-}
+} */
 .animation-slide-down-start {
     animation: downStart 2s ease-in-out forwards;
     animation-fill-mode: forwards;

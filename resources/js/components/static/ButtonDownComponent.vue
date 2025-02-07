@@ -1,7 +1,7 @@
 <template>
     <button :class="['bottom-4 md:bottom-8 fixed w-16 h-16 text-my_white bg-transparent border-2 border-my_white  rounded-full flex items-center justify-center opacity-50',
     'transition-all duration-2000 transform hover:opacity-100 z-20',
-    actionByttonDown ? 'right-8' : 'right-4 md:right-8 lg:right-16'
+    actionByttonDown ? '-right-16' : 'right-4 md:right-16'
     ]"
     :tabindex = "actionByttonDown ? '-1' : '0'"
     @click="navigateDown"

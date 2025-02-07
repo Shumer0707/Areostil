@@ -1,8 +1,8 @@
 <template>
     <div
-        @animationend="handleAnimationEndLogo"
         :class="[
-            'text-xl font-bold transition-all duration-500 ease-in-out flex items-center justify-center w-32 h-32 order-1', animationHeaderLogo
+            'text-xl font-bold transition-all duration-500 ease-in-out flex items-center justify-center w-16 h-16 order-1', animationHeaderLogo,
+            'md:w-32 md:h-32'
         ]"
     >
         <a href=""><img :src="$getImageUrl('/img/logo/log-1.png')" alt="Areostil logo" class=""></a>
@@ -27,15 +27,8 @@ export default {
                 animationHeaderLogo.value = 'animation-slide-down-start-logo';
             }
         });
-        const handleAnimationEndLogo = (event) => {
-            if (event.animationName === "downStartLogo") {
-                animationHeaderLogo.value = "downEndLogo";
-            } else if (event.animationName === "upStartLogo") {
-                animationHeaderLogo.value = "upEndLogo";
-            }
-        };
 
-        return { animationHeaderLogo, handleAnimationEndLogo};
+        return { animationHeaderLogo};
     }
 };
 </script>
@@ -46,49 +39,87 @@ export default {
         opacity: 1;
     }
     40% {
-        width: 8rem;
-        height: 8rem;
+        width: 4rem;
+        height: 4rem;
         opacity: 0;
     }
     60% {
-        width: 6rem;
-        height: 6rem;
+        width: 3rem;
+        height: 3rem;
         opacity: 0;
     }
     100% {
-        width: 6rem;
-        height: 6rem;
+        width: 3rem;
+        height: 3rem;
         opacity: 1;
     }
 }
-/* .downEndLogo {
-    width: 6rem;
-    height: 6rem;
-    opacity: 1;
-} */
+@media (min-width: 768px) {
+    @keyframes downStartLogo {
+        0% {
+            opacity: 1;
+        }
+        40% {
+            width: 8rem;
+            height: 8rem;
+            opacity: 0;
+        }
+        60% {
+            width: 6rem;
+            height: 6rem;
+            opacity: 0;
+        }
+        100% {
+            width: 6rem;
+            height: 6rem;
+            opacity: 1;
+        }
+    }
+}
 @keyframes upStartLogo {
     0% {
+        width: 3rem;
+        height: 3rem;
         opacity: 1;
-        width: 6rem;
-        height: 6rem;
     }
     20% {
-        width: 6rem;
-        height: 6rem;
+        width: 3rem;
+        height: 3rem;
         opacity: 0;
     }
     60% {
-        width: 8rem;
-        height: 8rem;
+        width: 4rem;
+        height: 4rem;
         opacity: 0;
     }
     100% {
+        width: 4rem;
+        height: 4rem;
         opacity: 1;
     }
 }
-/* .upEndLogo {
-    opacity: 1;
-} */
+@media (min-width: 768px) {
+    @keyframes upStartLogo {
+        0% {
+            opacity: 1;
+            width: 6rem;
+            height: 6rem;
+        }
+        20% {
+            width: 6rem;
+            height: 6rem;
+            opacity: 0;
+        }
+        60% {
+            width: 8rem;
+            height: 8rem;
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+}
 .animation-slide-down-start-logo {
     animation: downStartLogo 2s ease-in-out forwards;
     animation-fill-mode: forwards;

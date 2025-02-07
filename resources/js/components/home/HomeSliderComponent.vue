@@ -18,7 +18,7 @@
             :class="{ 'opacity-100 scale-100': index === currentSlide }"
             :style="slide.style"
           >
-            <h2 class="text-white text-4xl font-bold mb-4">{{ typedTitle }}</h2>
+            <h2 class="font-serif text-white text-4xl font-bold mb-4">{{ typedTitle }}</h2>
             <p v-if="titleComplete" class="text-white text-lg">{{ typedDescription }}</p>
           </div>
         </div>

@@ -15,6 +15,9 @@ export default defineConfig({
     }),
     vue(),
   ],
+  optimizeDeps: {
+    include: ['swiper/vue', 'swiper']
+  },
   resolve: {
     alias: {
       'vue': 'vue/dist/vue.esm-bundler.js',

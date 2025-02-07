@@ -10,7 +10,8 @@
 </template>
 
 <script>
-import AboutUsComponent from '../about/AboutUsComponent.vue';
+import CompanyComponent from '../about/CompanyComponent.vue';
+import TeamComponent from '../about/TeamComponent.vue';
 import { usePageState } from '@/store/pageState';
 import PageWrapper from '../wrappers/PageWrapper.vue';
 export default {
@@ -18,7 +19,8 @@ export default {
 
     components: {
         PageWrapper,
-        AboutUsComponent,
+        CompanyComponent,
+        TeamComponent
     },
 
     setup() {
@@ -35,7 +37,8 @@ export default {
     data() {
         return {
             components: [
-                'AboutUsComponent'
+                'CompanyComponent',
+                'TeamComponent'
             ]
         };
     }

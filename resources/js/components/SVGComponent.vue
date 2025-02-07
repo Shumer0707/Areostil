@@ -14,7 +14,7 @@
 
 <script>
     export default {
-    name: "HousePlanAnimation",
+    name: "CompanyComponent",
     data() {
         return {
         width: 800, // Ширина SVG

@@ -6,8 +6,9 @@
     >
         <!-- кнопка вверх -->
         <button
-            :class="[' w-16 h-16 text-my_white bg-transparent border-2 border-my_white rounded-full flex items-center justify-center opacity-50',
-            'duration-300 hover:opacity-100',
+            :class="['text-my_white bg-transparent border-2 border-my_white rounded-full flex items-center justify-center opacity-50 transition-all duration-1000',
+            'md:duration-300 hover:opacity-100',
+            animationHeaderNav === 'animation-slide-down-start-nav' ? 'md:w-16 md:h-16 w-12 h-12' : 'w-16 h-16',
             ]"
             :tabindex = "actionButtonUp ? '0' : '-1'"
             @click="navigateUp">
@@ -25,8 +26,9 @@
         ></button>
         <!-- кнопка вниз -->
         <button
-            :class="[' w-16 h-16 text-my_white bg-transparent border-2 border-my_white rounded-full flex items-center justify-center opacity-50',
-            'duration-300 hover:opacity-100',
+            :class="['text-my_white bg-transparent border-2 border-my_white rounded-full flex items-center justify-center opacity-50 transition-all duration-1000',
+            'md:duration-300 hover:opacity-100',
+            animationHeaderNav === 'animation-slide-down-start-nav' ? 'md:w-16 md:h-16 w-12 h-12' : 'w-16 h-16',
             ]"
             :tabindex = "actionButtonUp ? '0' : '-1'"
             @click="navigateDown">
