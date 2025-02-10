@@ -44,15 +44,15 @@
                 class="h-full w-full"
             >
                 <SwiperSlide v-for="(item, index) in currentItems" :key="index">
-                    <a :href="item.link" class="cursor-pointer">
-                    <img :src="$getImageUrl(item.image)"
-                        :alt="item.name"
-                        class="rounded-2xl shadow-lg object-cover w-full h-full max-w-full max-h-full" />
-                    <div class="absolute bottom-4 left-4 bg-my_gray_op p-2 rounded-lg text-white">
-                        <h3 class="text-xl font-bold">{{ item.name }}</h3>
-                        <p class="text-sm">{{ item.details }}</p>
-                    </div>
-                    </a>
+                    <router-link :to="`/project/${item.id}`" class="cursor-pointer">
+                        <img :src="$getImageUrl(item.image)"
+                            :alt="item.name"
+                            class="rounded-2xl shadow-lg object-cover w-full h-full max-w-full max-h-full" />
+                        <div class="absolute bottom-4 left-4 bg-my_gray_op p-2 rounded-lg text-white">
+                            <h3 class="text-xl font-bold">{{ item.name }}</h3>
+                            <p class="text-sm">{{ item.details }}</p>
+                        </div>
+                    </router-link>
                 </SwiperSlide>
             </Swiper>
         </div>
