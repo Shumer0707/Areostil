@@ -59,19 +59,24 @@ export default {
     };
 
     const handleTouchEnd = (event) => {
-      const touchEndY = event.changedTouches[0].clientY;
-      const touchDelta = pageState.touchStartY - touchEndY;
-      const direction = touchDelta > 0 ? 'down' : 'up';
+        const touchEndY = event.changedTouches[0].clientY;
+        const touchDelta = pageState.touchStartY - touchEndY;
+        const threshold = 50; // Порог в 50 пикселей
 
-      if (pageState.currentBlock === pageState.totalBlocks - 1) {
-        if (direction === 'down' && !pageState.showOverlay) {
-          pageState.toggleOverlay(true);
-          pageState.disableScroll();
-        } else if (direction === 'up' && pageState.showOverlay) {
-          pageState.toggleOverlay(false);
-          pageState.enableScroll();
+        // Проверка: если свайп не превышает порог, игнорируем его
+        if (Math.abs(touchDelta) < threshold) return;
+
+        const direction = touchDelta > 0 ? 'down' : 'up';
+
+        if (pageState.currentBlock === pageState.totalBlocks - 1) {
+            if (direction === 'down' && !pageState.showOverlay) {
+            pageState.toggleOverlay(true);
+            pageState.disableScroll();
+            } else if (direction === 'up' && pageState.showOverlay) {
+            pageState.toggleOverlay(false);
+            pageState.enableScroll();
+            }
         }
-      }
     };
 
     window.addEventListener('wheel', handleScroll);
