@@ -1,55 +1,40 @@
-import { createApp } from 'vue';
-import { createPinia } from 'pinia';
-import App from './components/App.vue';
-import router from './components/router';
+import '../css/app.css';
+import './bootstrap';
 
-router.afterEach((to) => {
-    document.title = to.meta.title || 'Default Title';
-  });
+import { createApp, h } from 'vue';
+import { createPinia } from 'pinia'; // Импортируем Pinia
+import { createInertiaApp } from '@inertiajs/vue3';
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { ZiggyVue } from '../../vendor/tightenco/ziggy';
+import router from './components/router'; // Импортируем маршруты
 
-const app = createApp(App);
-const pinia = createPinia();
+const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+// router.afterEach((to) => {
+//     document.title = to.meta.title || 'Default Title';
+//   });
 
-// Добавляем глобальный метод $getImageUrl
-app.config.globalProperties.$getImageUrl = (path) => {
-    return `${import.meta.env.VITE_APP_URL}${path}`;
-};
-app.use(pinia);
-app.use(router).mount('#app');
+createInertiaApp({
+    title: (title) => `${title} - ${appName}`,
+    resolve: (name) =>
+        resolvePageComponent(
+            `./components/${name}.vue`, // Обновлённый путь к App.vue
+            import.meta.glob('./components/**/*.vue'),
+        ),
+    setup({ el, App, props, plugin }) {
+        const app = createApp({ render: () => h(App, props) });
 
-// import { createApp } from 'vue';
-// import HomePageComponent from './components/pages/HomePageComponent.vue';
-// import AboutPageComponent from './components/pages/AboutPageComponent.vue';
-// import GaleryPageComponent from './components/pages/GaleryPageComponent.vue';
-// import ContactPageComponent from './components/pages/ContactPageComponent.vue';
-// import FooterComponent from './components/static/FooterComponent.vue';
+        app.use(plugin);
+        app.use(ZiggyVue);
+        app.use(createPinia()); // Подключаем Pinia
+        app.use(router); // Подключаем Vue Router
 
+        app.config.globalProperties.$getImageUrl = (path) => {
+            return `${import.meta.env.VITE_APP_URL}${path}`;
+        };
 
-// function mountComponent(selector, component, componentName) {
-//     const element = document.querySelector(selector);
-//     if (element) {
-//         const app = createApp({});
-
-//         app.config.globalProperties.$getImageUrl = (path) => {
-//             return `${import.meta.env.VITE_APP_URL}${path}`;
-//         };
-
-//         app.component(componentName, component);
-//         app.mount(selector);
-//     }
-// }
-
-// mountComponent('#home', HomePageComponent, 'homepage-component');
-// mountComponent('#about', AboutPageComponent, 'aboutpage-component');
-// mountComponent('#galery', GaleryPageComponent, 'galerypage-component');
-// mountComponent('#contact', ContactPageComponent, 'contactpage-component');
-// mountComponent('#footer', FooterComponent, 'footer-component');
-
-
-// const appElement = document.querySelector('#app'); // Ищем элемент с id="app"
-
-// if (appElement) {
-//     const app = createApp({}); // Создаем приложение
-//     app.component('example-component', ExampleComponent); // Регистрируем компонент
-//     app.mount('#app'); // Монтируем приложение на элемент с id="app"
-// }
+        app.mount(el);
+    },
+    progress: {
+        color: '#4B5563',
+    },
+});
