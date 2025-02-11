@@ -7,35 +7,39 @@ use Inertia\Inertia;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\ProjectController;
 
+// Route::get('/', function () {
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// });
 
-// API маршруты
-Route::middleware('api')->prefix('api')->group(function () {
-    Route::get('/test', TestController::class);
-    Route::get('/projects/{id}', [ProjectController::class, 'show']); // Новый маршрут для проекта
-});
-
-// Маршруты для SPA
-Route::get('/{any}', function () {
-    return Inertia::render('App'); // Твой основной Vue компонент
-})->where('any', '.*');
-
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
-
+// Dashboard
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+// Профиль пользователя
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Auth (логин, регистрация)
 require __DIR__.'/auth.php';
+
+// API маршруты
+Route::middleware('api')->prefix('api')->group(function () {
+    Route::get('/test', TestController::class);
+    Route::get('/projects/{id}', [ProjectController::class, 'show']);
+});
+
+// Этот маршрут ДОЛЖЕН быть последним
+Route::get('/{any}', function () {
+    return Inertia::render('App'); // Твой основной Vue компонент
+})->where('any', '.*');
+
+

@@ -1,10 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
-
-import HomePageComponent from './pages/HomePageComponent.vue';
-import AboutPageComponent from './pages/AboutPageComponent.vue';
-import GaleryPageComponent from './pages/GalleryPageComponent.vue';
-import ContactPageComponent from './pages/ContactPageComponent.vue';
-import ProjectPageComponent from './pages/ProjectPageComponent.vue';
+import HomePageComponent from './components/pages/HomePageComponent.vue';
+import AboutPageComponent from './components/pages/AboutPageComponent.vue';
+import GaleryPageComponent from './components/pages/GalleryPageComponent.vue';
+import ContactPageComponent from './components/pages/ContactPageComponent.vue';
+import ProjectPageComponent from './components/pages/ProjectPageComponent.vue';
 
 const routes = [
   { path: '/', component: HomePageComponent, meta: { title: 'HomePage - Areostil Pro' }},

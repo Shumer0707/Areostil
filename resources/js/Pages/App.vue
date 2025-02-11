@@ -6,9 +6,9 @@
 </template>
 
 <script>
-import HeaderComponent from './static/HeaderComponent.vue';
-import FooterComponent from './static/FooterComponent.vue';
-import ButtonDownComponent from './static/ButtonDownComponent.vue';
+import HeaderComponent from '../components/static/HeaderComponent.vue';
+import FooterComponent from '../components/static/FooterComponent.vue';
+import ButtonDownComponent from '../components/static/ButtonDownComponent.vue';
 export default {
   name: 'App',
   components: {
