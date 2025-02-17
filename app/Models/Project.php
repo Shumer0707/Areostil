@@ -15,6 +15,7 @@ class Project extends Model
         'short_desc',
         'cover_image',
         'client',
+        'trend',
         'full_desc'
     ];
 

@@ -26,11 +26,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Vite::prefetch(concurrency: 3);
-        View::share('ziggy', function () {
-            return [
-                'routes' => Route::getRoutes()->getRoutesByName(),
-            ];
-        });
+
         Inertia::share([
             'ziggy' => function () {
                 return array_merge((new Ziggy())->toArray(), [

@@ -3,11 +3,14 @@ import './bootstrap';
 
 import { createApp, h } from 'vue';
 import { createPinia } from 'pinia';
-import { createInertiaApp, usePage } from '@inertiajs/vue3'; // <-- Добавили usePage
+import { createInertiaApp, usePage } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import { ZiggyVue } from 'ziggy-js';
-import { Ziggy } from './ziggy'; // Убедись, что файл существует!
-import router from './router'; // Добавляем импорт router
+import { ZiggyVue, route } from 'ziggy-js';
+import { Ziggy } from './ziggy';
+import router from './router';
+
+// Добавляем `route()` в `window`, чтобы он работал в консоли и в коде
+window.route = route;
 
 // Создаём приложение Inertia
 createInertiaApp({
@@ -24,9 +27,19 @@ createInertiaApp({
         app.use(createPinia());
         app.use(router);
 
-        // Глобально передаём route()
-        app.config.globalProperties.route = (...args) => {
-            return window.route ? window.route(...args) : null;
+        app.config.globalProperties.route = (name, params = {}) => {
+            try {
+                const page = usePage(); // Берём usePage() только когда он доступен
+                const ziggyRoutes = page?.props?.ziggy?.routes;
+                if (!ziggyRoutes || !ziggyRoutes[name]) {
+                    console.warn(`Маршрут "${name}" не найден в Ziggy.`);
+                    return '/';
+                }
+                return `/${ziggyRoutes[name].uri}`;
+            } catch (error) {
+                console.warn(`Ошибка при вызове route("${name}")`, error);
+                return '/';
+            }
         };
 
         // Функция для получения URL изображений

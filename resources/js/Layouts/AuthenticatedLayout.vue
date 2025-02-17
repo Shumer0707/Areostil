@@ -5,9 +5,12 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 
 const showingNavigationDropdown = ref(false);
+const routeIsActive = (name) => {
+    return usePage().props.ziggy.location.endsWith(name);
+};
 </script>
 
 <template>
@@ -35,7 +38,7 @@ const showingNavigationDropdown = ref(false);
                             >
                                 <NavLink
                                     :href="route('dashboard')"
-                                    :active="route().current('dashboard')"
+                                    :active="routeIsActive('dashboard')"
                                 >
                                     Dashboard
                                 </NavLink>
@@ -142,7 +145,7 @@ const showingNavigationDropdown = ref(false);
                     <div class="space-y-1 pb-3 pt-2">
                         <ResponsiveNavLink
                             :href="route('dashboard')"
-                            :active="route().current('dashboard')"
+                            :active="routeIsActive('dashboard')"
                         >
                             Dashboard
                         </ResponsiveNavLink>
