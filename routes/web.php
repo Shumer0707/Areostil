@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\ProjectController;
+use Illuminate\Support\Facades\Auth;
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
@@ -15,11 +16,16 @@ use App\Http\Controllers\ProjectController;
 //         'phpVersion' => PHP_VERSION,
 //     ]);
 // });
-
 // Dashboard
+// Route::get('/dashboard', function () {dd(Auth::check());})->name('dashboard');
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth:admin'])->name('dashboard');
+// Route::middleware(['auth:admin'])->group(function () {
+//     Route::get('/dashboard', function () {
+//         return Inertia::render('Dashboard');
+//     })->name('dashboard');
+// });
 
 // Профиль пользователя
 Route::middleware('auth')->group(function () {

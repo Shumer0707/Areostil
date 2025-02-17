@@ -2,20 +2,15 @@ import '../css/app.css';
 import './bootstrap';
 
 import { createApp, h } from 'vue';
-import { createPinia } from 'pinia'; // Импортируем Pinia
-import { createInertiaApp } from '@inertiajs/vue3';
+import { createPinia } from 'pinia';
+import { createInertiaApp, usePage } from '@inertiajs/vue3'; // <-- Добавили usePage
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import { ZiggyVue } from '../../vendor/tightenco/ziggy';
-import { ZiggyVue } from 'ziggy-js'; // Обновлённый импорт Ziggy
-import { Ziggy } from 'ziggy-js';   // Обновлённый импорт маршрутов
+import { ZiggyVue } from 'ziggy-js';
+import { Ziggy } from './ziggy'; // Убедись, что файл существует!
+import router from './router'; // Добавляем импорт router
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
-// router.afterEach((to) => {
-//     document.title = to.meta.title || 'Default Title';
-//   });
-
+// Создаём приложение Inertia
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.vue`,
@@ -25,12 +20,23 @@ createInertiaApp({
         const app = createApp({ render: () => h(App, props) });
 
         app.use(plugin);
-        app.use(ZiggyVue, Ziggy); // Добавляем второй параметр
-        app.use(createPinia()); // Подключаем Pinia
-        app.use(router); // Подключаем Vue Router
+        app.use(ZiggyVue, Ziggy);
+        app.use(createPinia());
+        app.use(router);
 
+        // Глобально передаём route()
+        app.config.globalProperties.route = (...args) => {
+            return window.route ? window.route(...args) : null;
+        };
+
+        // Функция для получения URL изображений
         app.config.globalProperties.$getImageUrl = (path) => {
             return `${import.meta.env.VITE_APP_URL}${path}`;
+        };
+
+        // Глобальный обработчик ошибок
+        app.config.errorHandler = (err) => {
+            console.error('Ошибка Vue:', err);
         };
 
         app.mount(el);

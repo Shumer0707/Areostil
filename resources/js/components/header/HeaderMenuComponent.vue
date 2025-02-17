@@ -19,6 +19,7 @@
             <li><a href="/about" class="block p-2 hover:border">About</a></li>
             <li><a href="/gallery" class="block p-2 hover:border">Gallery</a></li>
             <li><a href="/contact" class="block p-2 hover:border">Contact</a></li>
+            <li><a href="/dashboard" class="block p-2 hover:border">dashboard</a></li>
         </ul>
     </div>
 </template>

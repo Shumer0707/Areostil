@@ -31,8 +31,13 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
-        $request->session()->regenerate();
+        // Проверяем, действительно ли пользователь аутентифицирован
+        if (!Auth::guard('admin')->check()) {
+            return back()->withErrors(['email' => 'Аутентификация не удалась.']);
+        }
 
+        $request->session()->regenerate();
+        // dd(Auth::guard()->user());
         return redirect()->intended(route('dashboard', absolute: false));
     }
 

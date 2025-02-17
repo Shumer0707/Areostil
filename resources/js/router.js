@@ -17,5 +17,8 @@ const router = createRouter({
   history: createWebHistory(),
   routes
 });
-
+router.beforeEach((to, from, next) => {
+    document.title = to.meta.title || 'Areostil Pro';
+    next();
+});
 export default router;
