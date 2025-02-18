@@ -1,33 +1,35 @@
 <?php
 
+use App\Http\Controllers\Admin\ProjectAdminController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\ProjectController;
-use Illuminate\Support\Facades\Auth;
-use Tighten\Ziggy\Ziggy;
-
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
-
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth:admin'])->name('dashboard');
 
 Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
-    Route::get('/projects', function () {
-        return Inertia::render('Admin/AdminProjects');
-    })->name('admin.projects');
+    Route::get('/projects', [ProjectAdminController::class, 'index'])->name('admin.projects.index');
+    Route::get('/projects/create', [ProjectAdminController::class, 'create'])->name('admin.projects.create');
+    Route::post('/projects', [ProjectAdminController::class, 'store'])->name('admin.projects.store');
+    Route::get('/projects/{id}/edit', [ProjectAdminController::class, 'edit'])->name('admin.projects.edit');
+    Route::put('/projects/{id}', [ProjectAdminController::class, 'update'])->name('admin.projects.update');
+    Route::delete('/projects/{id}', [ProjectAdminController::class, 'destroy'])->name('admin.projects.destroy');
+    Route::get('/projects/{id}/images', [ProjectAdminController::class, 'images'])->name('admin.projects.images');
+    Route::post('/projects/{id}/images', [ProjectAdminController::class, 'uploadImage'])->name('admin.projects.images.upload');
+    Route::delete('/projects/{id}/images/{imageId}', [ProjectAdminController::class, 'deleteImage'])->name('admin.projects.images.delete');
+    Route::put('/projects/{id}/set-cover', [ProjectAdminController::class, 'setCover'])->name('admin.projects.setCover');
 });
+
+// Профиль пользователя
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
 
 // Auth (логин, регистрация)
 require __DIR__.'/auth.php';
