@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps } from 'vue';
-import { useForm, router } from '@inertiajs/vue3';
+import { useForm, router, Link  } from '@inertiajs/vue3';
 
 const props = defineProps({
     project: Object,
@@ -32,8 +32,15 @@ const setAsCover = (id) => {
 
 <template>
     <div class="p-6">
-        <h1 class="text-2xl font-semibold mb-6">Изображения для {{ project.title }}</h1>
-
+        <div class="flex justify-between">
+            <h1 class="text-2xl font-semibold mb-6">Изображения для {{ project.translations[0]?.title }}</h1>
+            <Link
+                href="/admin/projects"
+                class="flex px-4 py-2 bg-my_pink text-white rounded-lg hover:bg-my_pink_op items-center justify-center"
+            >
+                Назад
+            </Link>
+        </div>
         <div class="bg-white shadow rounded-lg p-4">
             <form @submit.prevent="uploadImage" class="mb-4">
                 <input type="file" @change="form.image = $event.target.files[0]" class="border p-2">

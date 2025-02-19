@@ -9,16 +9,17 @@ class Project extends Model
 {
     use HasFactory;
 
-    // Указываем поля, которые могут быть массово заполнены
-    protected $fillable = [
-        'title',
-        'short_desc',
-        'cover_image',
-        'client',
-        'trend',
-        'full_desc'
-    ];
+    protected $fillable = ['client', 'trend'];
 
+    public function translations()
+    {
+        return $this->hasMany(ProjectTranslation::class);
+    }
+
+    public function getTranslation($locale)
+    {
+        return $this->translations()->where('locale', $locale)->first();
+    }
     // Связь: проект имеет много изображений
     public function images()
     {

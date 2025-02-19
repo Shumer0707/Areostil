@@ -15,12 +15,9 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('short_desc')->nullable();
             $table->string('cover_image')->nullable();
             $table->string('client')->nullable();
             $table->string('trend')->nullable();
-            $table->longText('full_desc')->nullable(); // Если много текста или HTML
             $table->timestamps();
         });
     }

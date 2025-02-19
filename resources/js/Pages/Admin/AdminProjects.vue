@@ -14,6 +14,12 @@ const deleteProject = (id) => {
 <template>
     <div class="p-6">
         <div class="flex justify-between items-center mb-6">
+            <Link
+                href="/dashboard"
+                class="flex px-4 py-2 bg-my_pink text-white rounded-lg hover:bg-my_pink_op items-center justify-center"
+            >
+                Назад
+            </Link>
             <h1 class="text-2xl font-semibold">Список проектов</h1>
             <Link
                 href="/admin/projects/create"
@@ -22,7 +28,6 @@ const deleteProject = (id) => {
                 Создать проект
             </Link>
         </div>
-
         <div class="bg-white shadow rounded-lg p-4">
             <table class="w-full border-collapse border border-gray-300">
                 <thead>
@@ -36,7 +41,7 @@ const deleteProject = (id) => {
                 <tbody>
                     <tr v-for="project in projects" :key="project.id">
                         <td class="border px-4 py-2">{{ project.id }}</td>
-                        <td class="border px-4 py-2">{{ project.title }}</td>
+                        <td class="border px-4 py-2">{{ project.translations[0]?.title || "Нет имени"}}</td>
                         <td class="border px-4 py-2">{{ project.client }}</td>
                         <td class="border px-4 py-2">
                             <Link
