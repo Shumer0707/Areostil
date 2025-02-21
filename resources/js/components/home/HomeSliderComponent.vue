@@ -18,8 +18,8 @@
             :class="{ 'opacity-100 scale-100': index === currentSlide }"
             :style="slide.style"
           >
-            <h2 class="font-serif text-white text-4xl font-bold mb-4">{{ typedTitle }}</h2>
-            <p v-if="titleComplete" class="text-white text-lg">{{ typedDescription }}</p>
+            <h2 class="font-serif text-my_white text-4xl font-bold mb-4">{{ typedTitle }}</h2>
+            <p v-if="titleComplete" class="text-my_white text-lg">{{ typedDescription }}</p>
           </div>
         </div>
 
@@ -28,8 +28,8 @@
             v-for="(slide, index) in slides"
             :key="'indicator-' + index"
             @click="goToSlide(index)"
-            class="w-4 h-4 rounded-full border-2 border-white cursor-pointer transition-all duration-300"
-            :class="{ 'bg-white': index === currentSlide, 'bg-transparent': index !== currentSlide }"
+            class="w-4 h-4 rounded-full border-2 border-my_white cursor-pointer transition-all duration-300"
+            :class="{ 'bg-my_white': index === currentSlide, 'bg-transparent': index !== currentSlide }"
           ></div>
         </div>
       </div>

@@ -89,10 +89,10 @@ export default {
             addBase({
                 ':root': {
                     '--color-primary': theme('colors.primary'),
-                    '--color-secondary': theme('colors.secondary'),
                     '--color-my-white': theme('colors.my_white'),
                     '--color-my-black': theme('colors.my_black'),
-                    '--color-footer': theme('colors.footer'),
+                    '--color-my-pink': theme('colors.my_pink'),
+                    '--color-my-gray': theme('colors.my_gray'),
                 },
             });
         },

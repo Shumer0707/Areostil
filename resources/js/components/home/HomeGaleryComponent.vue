@@ -3,12 +3,12 @@
 
      <div class="relative z-10 flex lg:flex-row flex-col w-full h-full">
         <div class="lg:w-1/3 w-full relative z-10 lg:flex items-center lg:h-full h-1/3 lg:py-0 py-8 flex-wrap bg-my_black text-primary">
-            <div class="lg:border border-primary lg:p-8 p-4">
-                <h3 class="lg:text-3xl text-2xl font-bold mb-4">Ознакомьтесь с нашими работами</h3>
-                <p class="lg:text-lg text-md">Мы предлагаем уникальные проекты, сочетающие современный стиль и функциональность. Посмотрите наши работы и найдите вдохновение для своего проекта.</p>
+            <div class="lg:border border-my_pink lg:p-8 p-4">
+                <h3 class="font-serif lg:text-3xl text-2xl font-bold mb-4">Ознакомьтесь с нашими работами</h3>
+                <p class="font-sans lg:text-lg text-md">Мы предлагаем уникальные проекты, сочетающие современный стиль и функциональность. Посмотрите наши работы и найдите вдохновение для своего проекта.</p>
             </div>
-            <div class="border border-primary p-8 w-full lg:flex hidden">
-                <h3 class="text-3xl font-bold mb-4">Тут какие-то цифры должны быть</h3>
+            <div class="border border-my_pink p-8 w-full lg:flex hidden">
+                <h3 class="font-serif text-3xl font-bold mb-4">Тут какие-то цифры должны быть</h3>
             </div>
         </div>
         <!-- Контейнер с перспективой -->
@@ -22,7 +22,7 @@
                 >
                 <img :src="$getImageUrl('/img/home/galery/galery-1.jpg')" alt="Фото 2" class="w-full h-full object-cover" />
                 <div class="absolute inset-0 bg-black bg-opacity-50"></div>
-                <h3 class="absolute inset-x-0 bottom-4 text-center text-xl font-bold text-my_white">Архитектура</h3>
+                <h3 class="font-serif absolute inset-x-0 bottom-4 text-center text-xl font-bold text-my_white">Архитектура</h3>
                 </a>
             </div>
 
@@ -34,7 +34,7 @@
                 >
                 <img :src="$getImageUrl('/img/home/galery/galery-2.jpg')" alt="Фото 2" class="w-full h-full object-cover" />
                 <div class="absolute inset-0 bg-black bg-opacity-50"></div>
-                <h3 class="absolute inset-x-0 bottom-4 text-center text-xl font-bold text-my_white">Инженеринг</h3>
+                <h3 class="font-serif absolute inset-x-0 bottom-4 text-center text-xl font-bold text-my_white">Инженеринг</h3>
                 </a>
             </div>
 
@@ -46,7 +46,7 @@
                 >
                 <img :src="$getImageUrl('/img/home/galery/galery-4.jpg')" alt="Фото 2" class="w-full h-full object-cover" />
                 <div class="absolute inset-0 bg-black bg-opacity-50"></div>
-                <h3 class="absolute inset-x-0 bottom-4 text-center text-xl font-bold text-my_white">Дизайн</h3>
+                <h3 class="font-serif absolute inset-x-0 bottom-4 text-center text-xl font-bold text-my_white">Дизайн</h3>
                 </a>
             </div>
         </div>
@@ -81,13 +81,14 @@
 } */
 .hover-effect {
   position: relative;
-  transition: transform 1s;
+  transition: transform 0.7s ease-in-out; /* Плавное возвращение */
   transform-style: preserve-3d;
 }
 .hover-effect::before,
 .hover-effect::after {
   content: '';
   position: absolute;
+  /* border: 2px solid var(--color-my-pink); */
   top: 0;
   left: 0;
   width: 100%;
@@ -104,37 +105,26 @@
   transform: rotateY(0deg) translateZ(-30px);
 }
 .hover-effect:hover {
-  animation: slide-back 1s ease-out forwards;
-  animation-fill-mode: forwards;
+  transform: rotateY(0deg) translateZ(10px) translateX(50px);
 }
-.hover-effect:not(:hover) {
-    animation: slide-in 1s ease-in-out;
+/* .hover-effect:not(:hover) {
+    animation: slide-in 0.7s ease-in-out;
 }
 @keyframes slide-back {
     0% {
-
-    }
-    50%{
-        transform: rotateY(-20deg) scale(1) translateZ(10px) translateX(150px);
+        transform: rotateY(-40deg) translateZ(0px);
     }
     100% {
-        transform: rotateY(0deg) scale(1.1) translateZ(10px) translateX(50px);
-        z-index: 40;
+        transform: rotateY(0deg) translateZ(10px) translateX(50px);
     }
 }
 @keyframes slide-in {
     0% {
-        transform: rotateY(0deg) scale(1.1) translateZ(10px) translateX(50px);
-        z-index: 40;
-        pointer-events: none;
-    }
-    50% {
-        transform: rotateY(-20deg) scale(1) translateZ(10px) translateX(0px);
-        z-index: 40;
+        transform: rotateY(0deg) translateZ(10px) translateX(50px);
         pointer-events: none;
     }
     100% {
-        transform: rotateY(-40deg) scale(1) translateZ(0px) translateX(0px);
+        transform: rotateY(-40deg) translateZ(0px) translateX(0px);
     }
-}
+} */
 </style>
