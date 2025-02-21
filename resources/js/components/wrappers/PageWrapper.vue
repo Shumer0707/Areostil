@@ -1,8 +1,8 @@
 <template>
-    <main ref="container" class="w-full h-screen overflow-hidden bg-cover bg-center"
-        :style="{ backgroundImage: `url(${randomBackground})` }">
+    <main ref="container" class="w-full h-screen overflow-hidden relative">
+        <div class="absolute inset-0 bg-cover bg-center animate-background-move"
+             :style="{ backgroundImage: `url(${randomBackground})` }"></div>
         <div class="absolute inset-0 bg-primary bg-opacity-50"></div>
-        <!-- Слот для рендеринга дочерних компонентов -->
         <slot />
     </main>
 </template>
@@ -113,5 +113,37 @@ html, body {
   padding: 0;
   overflow: hidden;
   height: 100%;
+}
+@keyframes background-move {
+  0% {
+    background-position: 50% 50%;
+    transform: rotate(0deg) scale(1.02);
+  }
+  25% {
+    background-position: 52% 48%;
+    transform: rotate(1deg) scale(1.04);
+  }
+  50% {
+    background-position: 48% 52%;
+    transform: rotate(-1deg) scale(1.02);
+  }
+  75% {
+    background-position: 51% 49%;
+    transform: rotate(0.5deg) scale(1.04);
+  }
+  100% {
+    background-position: 50% 50%;
+    transform: rotate(0deg) scale(1.02);
+  }
+}
+
+.animate-background-move {
+  animation: background-move 15s ease-in-out infinite alternate;
+  width: 110%;
+  height: 110%;
+  position: absolute;
+  top: -5%;
+  left: -5%;
+  background-size: cover;
 }
 </style>

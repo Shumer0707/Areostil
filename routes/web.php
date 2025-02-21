@@ -4,8 +4,13 @@ use App\Http\Controllers\Admin\ProjectAdminController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Http\Request;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\ProjectController;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\ContactController;
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -38,6 +43,16 @@ require __DIR__.'/auth.php';
 Route::middleware('api')->prefix('api')->group(function () {
     Route::get('/test', TestController::class);
     Route::get('/projects/{id}', [ProjectController::class, 'show']);
+    Route::get('/translations', function (Request $request) {
+        $locale = App::getLocale(); // Получаем текущий язык
+        Log::info("Текущий язык: " . $locale); // ✅ Проверяем в логах
+        return response()->json([
+            'messages' => Lang::get('messages', [], $locale),
+            'header' => Lang::get('header', [], $locale),
+            'buttons' => Lang::get('buttons', [], $locale),
+        ]);
+    });
+    Route::post('/contact/send', [ContactController::class, 'send']);
 });
 
 // Этот маршрут ДОЛЖЕН быть последним

@@ -3,6 +3,7 @@ import './bootstrap';
 
 import { createApp, h } from 'vue';
 import { createPinia } from 'pinia';
+import { useLocalizationStore } from './store/localization';
 import { createInertiaApp, usePage } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue, route } from 'ziggy-js';
@@ -50,6 +51,21 @@ createInertiaApp({
         // Глобальный обработчик ошибок
         app.config.errorHandler = (err) => {
             console.error('Ошибка Vue:', err);
+        };
+
+        const localizationStore = useLocalizationStore();
+        localizationStore.fetchTranslations(); // Загружаем переводы перед стартом приложения
+
+        // ✅ Добавляем глобальный доступ к переводам
+        app.config.globalProperties.$t = (key) => {
+            const keys = key.split('.');
+            let translation = localizationStore.translations;
+
+            for (const k of keys) {
+                translation = translation?.[k];
+                if (!translation) return key; // Если перевод не найден, возвращаем ключ
+            }
+            return translation;
         };
 
         app.mount(el);

@@ -4,14 +4,6 @@
             'relative flex gap-8 transition-all duration-1000 ease-in-out items-center order-2', animationHeaderButton
         ]"
     >
-        <!-- Язык переключатель -->
-        <!-- <button
-            :class="[
-                'w-12 h-12 bg-transparent flex items-center justify-center transition-transform duration-1000 ease-in-out'
-            ]"
-        >
-            Ru
-        </button> -->
         <div class="hidden">
             <button class="w-12 h-12"></button>
         </div>
