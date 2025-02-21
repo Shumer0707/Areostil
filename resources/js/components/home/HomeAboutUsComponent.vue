@@ -28,11 +28,11 @@
           У нас огромный опыт как в частной, так и коммерческой застройке.
         </p>
         <a
-          href="/about"
-          class="text-my_black underline hover:no-underline font-bold"
-          :tabindex="isActive ? '0' : '-1'"
-        >
-          Узнайте больше о нас
+            href="/about"
+            class="w-fit inline-block text-my_black underline hover:no-underline font-bold"
+            :tabindex="isActive ? '0' : '-1'"
+            >
+            Узнайте больше о нас
         </a>
       </div>
 
