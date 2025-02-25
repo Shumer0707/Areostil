@@ -44,7 +44,7 @@ export default {
             slides: [
                 {
                     image: '/img/home/slider/img1.jpg',
-                    title: 'Welcome to Our Gallery',
+                    title: $t('home.Slider_1_title'),
                     description: 'Explore the beauty of our collection.',
                     style: { top: '20%', left: '10%' } // Расположение текста
                 },
