@@ -63,7 +63,7 @@ createInertiaApp({
 
             for (const k of keys) {
                 translation = translation?.[k];
-                if (!translation) return ''; // Если перевод не найден, возвращаем ключ
+                if (!translation) return key; // Если перевод не найден, возвращаем ключ
             }
             return translation;
         };

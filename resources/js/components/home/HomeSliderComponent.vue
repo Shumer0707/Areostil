@@ -1,8 +1,7 @@
-
 <template>
     <section id="slider-section" class="relative w-full h-screen overflow-hidden">
         <div class="inset-0 w-full h-full overflow-hidden relative">
-            <div v-for="(slide, index) in slides" :key="index" class="absolute inset-0">
+            <div v-for="(slide, index) in translatedSlides" :key="index" class="absolute inset-0">
                 <img
                     :src="slide.image"
                     :alt="'Slide ' + index"
@@ -38,57 +37,53 @@
 </template>
 
 <script setup>
-import { ref, getCurrentInstance, computed, watchEffect, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { useLocalizationStore } from '@/store/localization'; // ✅ Подключаем Pinia Store
 
-const instance = getCurrentInstance();
-const $t = instance?.appContext.config.globalProperties.$t;
-const localizationStore = instance?.appContext.config.globalProperties.localizationStore;
-
-const translationsLoaded = ref(false);
+const localizationStore = useLocalizationStore();
 const currentSlide = ref(0);
 const typedTitle = ref('');
 const typedDescription = ref('');
 const titleComplete = ref(false);
 const intervalId = ref(null);
 
-// Слайды (ключи для перевода)
+// ✅ Определяем слайды с ключами для перевода
 const slides = ref([
     { image: '/img/home/slider/img1.jpg', title: 'home.slider_1_title', description: 'home.slider_1_description', style: { top: '20%', left: '10%' } },
     { image: '/img/home/slider/img2.jpg', title: 'home.slider_2_title', description: 'home.slider_2_description', style: { bottom: '15%', right: '10%' } },
     { image: '/img/home/slider/img3.jpg', title: 'home.slider_3_title', description: 'home.slider_3_description', style: { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' } }
 ]);
 
-// Переведённые заголовки и описания (computed)
+// ✅ Автоматически переводим слайды при изменении переводов
 const translatedSlides = computed(() => {
-    if (!translationsLoaded.value) return slides.value;
+    if (!localizationStore.translations || Object.keys(localizationStore.translations).length === 0) {
+        return slides.value;
+    }
     return slides.value.map(slide => ({
         ...slide,
-        title: $t(slide.title),
-        description: $t(slide.description)
+        title: localizationStore.translations?.home?.[slide.title.split('.')[1]] || slide.title,
+        description: localizationStore.translations?.home?.[slide.description.split('.')[1]] || slide.description
     }));
 });
 
-// Ждём загрузки переводов и запускаем карусель
-watchEffect(() => {
-    if (localizationStore?.translations && Object.keys(localizationStore.translations).length > 0) {
-        translationsLoaded.value = true;
+// ✅ Запускаем печатание текста текущего слайда
+const startTyping = () => {
+    const slide = translatedSlides.value[currentSlide.value];
 
-        startTyping();
-        startSlideShow();
-    }
-});
-
-// Функция сброса текста перед новым слайдом
-const resetTyping = () => {
-    typedTitle.value = ''; // Очищаем перед новым слайдом
+    typedTitle.value = '';
     typedDescription.value = '';
     titleComplete.value = false;
+
+    typeText(slide.title, 'typedTitle', () => {
+        titleComplete.value = true;
+        typeText(slide.description, 'typedDescription');
+    });
 };
 
-// Функция печатания текста с анимацией (сразу записывает текст, а не дублирует)
+// ✅ Функция печатания текста с анимацией
 const typeText = (text, target, callback) => {
     let index = 0;
-    let tempText = ''; // Временная переменная, чтобы избежать дублирования
+    let tempText = '';
 
     const interval = setInterval(() => {
         if (index < text.length) {
@@ -103,20 +98,7 @@ const typeText = (text, target, callback) => {
     }, 100);
 };
 
-// Запускаем печатание текста текущего слайда
-const startTyping = () => {
-    if (!translationsLoaded.value) return;
-
-    resetTyping(); // Очищаем текст перед новым слайдом
-
-    const slide = translatedSlides.value[currentSlide.value];
-    typeText(slide.title, 'typedTitle', () => {
-        titleComplete.value = true;
-        typeText(slide.description, 'typedDescription');
-    });
-};
-
-// Автоматическая смена слайдов
+// ✅ Автоматическая смена слайдов
 const startSlideShow = () => {
     if (intervalId.value) clearInterval(intervalId.value);
 
@@ -126,13 +108,23 @@ const startSlideShow = () => {
     }, 10000);
 };
 
-// Вручную переключаем слайд
+// ✅ Вручную переключаем слайд
 const goToSlide = (index) => {
     currentSlide.value = index;
     startTyping();
     startSlideShow();
 };
 
+// ✅ Загружаем переводы при монтировании
+onMounted(async () => {
+    if (!localizationStore.translations || Object.keys(localizationStore.translations).length === 0) {
+        await localizationStore.fetchTranslations();
+    }
+    startTyping();
+    startSlideShow();
+});
+
+// ✅ Очищаем интервал при выходе
 onBeforeUnmount(() => {
     if (intervalId.value) clearInterval(intervalId.value);
 });

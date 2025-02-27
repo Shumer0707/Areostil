@@ -3,13 +3,23 @@
         <div class="absolute inset-0 bg-cover bg-center animate-background-move"
              :style="{ backgroundImage: `url(${randomBackground})` }"></div>
         <div class="absolute inset-0 bg-primary bg-opacity-50"></div>
-        <slot />
+
+        <!-- Показываем контент только после загрузки переводов -->
+        <div v-if="translationsLoaded">
+            <slot />
+        </div>
+
+        <!-- Плейсхолдер загрузки -->
+        <div v-else class="flex justify-center items-center h-full">
+            <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-white"></div>
+        </div>
     </main>
 </template>
 
 <script>
 import { usePageState } from '@/store/pageState';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import { useLocalizationStore } from '@/store/localization';
 export default {
   name: "PageWrapper",
   props: {
@@ -20,7 +30,20 @@ export default {
   },
   setup() {
     const pageState = usePageState();
+    const localizationStore = useLocalizationStore(); // Получаем Pinia Store
+    // console.log(translationsLoaded);
 
+    // Проверяем, загружены ли переводы
+    const translationsLoaded = computed(() => {
+        return localizationStore.translations && Object.keys(localizationStore.translations).length > 0;
+    });
+
+    // Загружаем переводы при монтировании компонента
+    onMounted(async () => {
+        if (!translationsLoaded.value) {
+            await localizationStore.fetchTranslations();
+        }
+    });
     // Массив с путями к изображениям
     const backgrounds = [
         '/img/back/back-1.jpg',
@@ -89,7 +112,7 @@ export default {
       }
     };
 
-    return { pageState, handleScroll, handleTouchStart, handleTouchEnd, randomBackground };
+    return { pageState, handleScroll, handleTouchStart, handleTouchEnd, randomBackground, translationsLoaded };
   },
   mounted() {
     const pageState = usePageState();
