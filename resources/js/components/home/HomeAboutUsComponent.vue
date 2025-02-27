@@ -22,17 +22,16 @@
 
       <!-- Левый блок -->
       <div class="relative w-4/5 lg:w-2/3 h-full flex flex-col justify-center md:px-32 px-4 z-10 text-left">
-        <h2 class="font-serif text-3xl lg:text-5xl font-bold text-my_black mb-4">О нас</h2>
+        <h2 class="font-serif text-3xl lg:text-5xl font-bold text-my_black mb-4">{{ $t('home.about_us_title') }}</h2>
         <p class="text-md lg:text-lg text-my_black mb-6 font-bold">
-          Мы — архитектурная компания, которая создаёт уникальные пространства, вдохновляя современными трендами и технологиями.
-          У нас огромный опыт как в частной, так и коммерческой застройке.
+            {{ $t('home.about_us_description') }}
         </p>
         <a
             href="/about"
-            class="w-fit inline-block text-my_black underline hover:no-underline font-bold"
+            class="w-fit inline-block text-my_black font-bold border-b-2 border-b-my_pink_op hover:border-b-my_pink"
             :tabindex="isActive ? '0' : '-1'"
             >
-            Узнайте больше о нас
+            {{ $t('home.about_us_link') }}
         </a>
       </div>
 

@@ -47,9 +47,10 @@ Route::middleware('api')->prefix('api')->group(function () {
         $locale = App::getLocale(); // Получаем текущий язык
         Log::info("Текущий язык: " . $locale); // ✅ Проверяем в логах
         return response()->json([
-            'messages' => Lang::get('messages', [], $locale),
+            'home' => Lang::get('home', [], $locale),
             'header' => Lang::get('header', [], $locale),
-            'buttons' => Lang::get('buttons', [], $locale),
+            'about' => Lang::get('about', [], $locale),
+            'contact' => Lang::get('contact', [], $locale),
         ]);
     });
     Route::post('/contact/send', [ContactController::class, 'send']);

@@ -14,11 +14,11 @@
         <!-- Верхний блок с заголовком и кнопкой -->
         <div class="flex flex-col md:flex-row justify-between items-center mb-6 px-4 md:px-0">
             <h3 class="text-lg md:text-xl font-semibold text-center md:text-left">
-                Появились вопросы? <span class="text-my_pink"> Свяжитесь с нами</span>
+                {{ $t('header.foter_text_1') }} <span class="text-my_pink">{{ $t('header.foter_text_2') }}</span>
             </h3>
             <a href="/contact" class="mt-3 md:mt-0 bg-my_pink text-white px-6 py-3 font-medium
                                     transition hover:bg-opacity-80">
-                Написать нам
+                {{ $t('header.foter_button') }}
             </a>
         </div>
         <!-- Основной блок футера -->

@@ -3,18 +3,18 @@
         <div class="font-serif bg-my_gray_op w-full h-1/4 flex flex-col md:flex-row px-24 lg:px-48 items-center justify-evenly text-2xl md:text-3xl select-none">
             <p><a :class="['hover:border-b-2 hover:border-b-my_pink md:hover:border-b-my_pink_op p-2',
             currentCategory === 'architecture' ? 'border-b-2 border-b-my_pink' : '']"
-                href="" @click.prevent="setCategory('architecture')"
-                >Архитектура
+                href="" @click.prevent="setCategory('architecture')">
+                {{ $t('home.gallery_Architecture') }}
             </a></p>
             <p><a :class="['hover:border-b-2 hover:border-b-my_pink md:hover:border-b-my_pink_op p-2',
             currentCategory === 'engineering' ? 'border-b-2 border-b-my_pink' : '']"
                 href="" @click.prevent="setCategory('engineering')">
-                Инженеринг
+                {{ $t('home.gallery_Engineering') }}
             </a></p>
             <p><a :class="['hover:border-b-2 hover:border-b-my_pink md:hover:border-b-my_pink_op p-2',
             currentCategory === 'design' ? 'border-b-2 border-b-my_pink' : '']"
                 href="" @click.prevent="setCategory('design')">
-                Дизайн
+                {{ $t('home.gallery_Design') }}
             </a></p>
         </div>
         <!-- карусель -->

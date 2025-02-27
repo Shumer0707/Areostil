@@ -63,10 +63,13 @@ createInertiaApp({
 
             for (const k of keys) {
                 translation = translation?.[k];
-                if (!translation) return key; // Если перевод не найден, возвращаем ключ
+                if (!translation) return ''; // Если перевод не найден, возвращаем ключ
             }
             return translation;
         };
+
+        // ✅ Делаем `localizationStore` глобально доступным
+        app.config.globalProperties.localizationStore = localizationStore;
 
         app.mount(el);
     },
