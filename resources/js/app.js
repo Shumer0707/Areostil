@@ -69,7 +69,7 @@ createInertiaApp({
         };
 
         // ✅ Делаем `localizationStore` глобально доступным
-        app.config.globalProperties.localizationStore = localizationStore;
+        // app.config.globalProperties.localizationStore = localizationStore;
 
         app.mount(el);
     },

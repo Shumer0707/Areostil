@@ -5,13 +5,20 @@
              :style="{ backgroundImage: `url(${randomBackground})` }"></div>
         <div class="absolute inset-0 bg-primary bg-opacity-50"></div>
 
-        <!-- Контент показывается только после загрузки переводов -->
-        <div v-if="translationsLoaded">
+        <!-- Контейнер с контентом -->
+        <div
+            v-if="translationsLoaded"
+            class="transition-all ease-out duration-700 will-change-transform"
+            :class="{ 'opacity-100 translate-y-0': showContent, 'opacity-0 translate-y-4': !showContent }"
+        >
             <slot />
         </div>
 
-        <!-- Лоадер, пока переводы загружаются -->
-        <div v-else class="flex justify-center items-center h-full">
+        <!-- Лоадер -->
+        <div
+            v-if="!translationsLoaded"
+            class="flex justify-center items-center h-full transition-opacity duration-500 ease-in"
+        >
             <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-white"></div>
         </div>
     </main>
@@ -33,6 +40,8 @@ const props = defineProps({
 // 📌 Pinia Stores
 const pageState = usePageState();
 const localizationStore = useLocalizationStore();
+// Флаг для активации анимации
+const showContent = ref(false);
 
 // ✅ Проверяем, загружены ли переводы
 const translationsLoaded = computed(() => {
@@ -44,6 +53,10 @@ onMounted(async () => {
     if (!translationsLoaded.value) {
         await localizationStore.fetchTranslations();
     }
+    // Даем Vue отрендерить div, а затем включаем анимацию
+    setTimeout(() => {
+        showContent.value = true;
+    }, 10);
 });
 
 // ✅ Фоновые изображения

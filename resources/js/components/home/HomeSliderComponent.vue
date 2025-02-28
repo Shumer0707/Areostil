@@ -38,14 +38,15 @@
 
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
-import { useLocalizationStore } from '@/store/localization'; // ✅ Подключаем Pinia Store
+import { useLocalizationStore } from '@/store/localization';
 
 const localizationStore = useLocalizationStore();
 const currentSlide = ref(0);
 const typedTitle = ref('');
 const typedDescription = ref('');
 const titleComplete = ref(false);
-const intervalId = ref(null);
+let animationFrameId = null;
+let timeoutId = null;
 
 // ✅ Определяем слайды с ключами для перевода
 const slides = ref([
@@ -76,35 +77,46 @@ const startTyping = () => {
 
     typeText(slide.title, 'typedTitle', () => {
         titleComplete.value = true;
-        typeText(slide.description, 'typedDescription');
+        typeText(slide.description, 'typedDescription', startSlideShow);
     });
 };
+
+
+const typingSpeed = 50; // ⏳ Устанавливаем скорость печатания (мс)
 
 // ✅ Функция печатания текста с анимацией
 const typeText = (text, target, callback) => {
     let index = 0;
     let tempText = '';
 
-    const interval = setInterval(() => {
+    const animateTyping = () => {
         if (index < text.length) {
             tempText += text[index];
             if (target === 'typedTitle') typedTitle.value = tempText;
             if (target === 'typedDescription') typedDescription.value = tempText;
             index++;
+
+            // ⏳ Добавляем задержку перед следующим вызовом requestAnimationFrame
+            setTimeout(() => {
+                animationFrameId = requestAnimationFrame(animateTyping);
+            }, typingSpeed);
         } else {
-            clearInterval(interval);
             if (callback) callback();
         }
-    }, 100);
+    };
+
+    animationFrameId = requestAnimationFrame(animateTyping);
 };
+
 
 // ✅ Автоматическая смена слайдов
 const startSlideShow = () => {
-    if (intervalId.value) clearInterval(intervalId.value);
-
-    intervalId.value = setInterval(() => {
-        currentSlide.value = (currentSlide.value + 1) % slides.value.length;
-        startTyping();
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+        animationFrameId = requestAnimationFrame(() => {
+            currentSlide.value = (currentSlide.value + 1) % slides.value.length;
+            startTyping();
+        });
     }, 10000);
 };
 
@@ -124,9 +136,10 @@ onMounted(async () => {
     startSlideShow();
 });
 
-// ✅ Очищаем интервал при выходе
+// ✅ Очищаем анимации при выходе
 onBeforeUnmount(() => {
-    if (intervalId.value) clearInterval(intervalId.value);
+    cancelAnimationFrame(animationFrameId);
+    clearTimeout(timeoutId);
 });
 </script>
 

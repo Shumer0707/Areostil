@@ -1,25 +1,23 @@
 <template>
     <div ref="menuRef"
-        :class="['absolute right-4 flex bg-my_black shadow-lg transition-all duration-500 ease-in-out opacity-100 md:opacity-80 text-xl font-normal',
+        :class="['absolute  flex bg-my_black shadow-lg transition-all duration-500 ease-in-out opacity-100 md:opacity-80 text-xl font-normal',
             'hover:opacity-100',
-            'md:right-8',
-            'lg:right-16',
-            isTop ? 'top-100' : 'flex-col h-screen top-0 w-64'
+            isTop ? 'top-100 md:right-16 right-4 pt-0' : 'flex-col h-screen top-0 w-64 md:right-32 right-16 pt-6'
         ]"
         v-if="headerState.isMainMenuVisible"
     >
         <ul :class="[isTop ? 'mx-12 my-6' : 'mx-auto py-6 border-b']">
             <!-- Ссылки на языки -->
-            <li><a href="#" @click.prevent="setLanguage('ru')" class="block p-2 hover:border">RU</a></li>
-            <li><a href="#" @click.prevent="setLanguage('ro')" class="block p-2 hover:border">RO</a></li>
+            <li><a href="#" @click.prevent="setLanguage('ru')" class="block p-2 hover:outline outline-1">RU</a></li>
+            <li><a href="#" @click.prevent="setLanguage('ro')" class="block p-2 hover:outline outline-1">RO</a></li>
         </ul>
-        <ul :class="[isTop ? 'mx-12 my-6 text-center ' : 'mx-auto py-6 border-b text-center']">
+        <ul :class="[isTop ? 'mx-6 md:mx-12 my-6 text-center ' : 'mx-auto py-6 border-b text-center']">
             <!-- Основные ссылки навигации -->
-            <li><a href="/" class="block p-2 hover:border">{{ $t('header.home') }}</a></li>
-            <li><a href="/about" class="block p-2 hover:border">{{ $t('header.about') }}</a></li>
-            <li><a href="/gallery" class="block p-2 hover:border">{{ $t('header.gallery') }}</a></li>
-            <li><a href="/contact" class="block p-2 hover:border">{{ $t('header.contact') }}</a></li>
-            <li><a href="/dashboard" class="block p-2 hover:border">dashboard</a></li>
+            <li><a href="/" class="block p-2 hover:outline outline-1">{{ $t('header.home') }}</a></li>
+            <li><a href="/about" class="block p-2 hover:outline outline-1">{{ $t('header.about') }}</a></li>
+            <li><a href="/gallery" class="block p-2 hover:outline outline-1">{{ $t('header.gallery') }}</a></li>
+            <li><a href="/contact" class="block p-2 hover:outline outline-1">{{ $t('header.contact') }}</a></li>
+            <li><a href="/dashboard" class="block p-2 hover:outline outline-1">dashboard</a></li>
         </ul>
     </div>
 </template>
