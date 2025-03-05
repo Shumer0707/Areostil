@@ -13,8 +13,8 @@
 import GalleryComponent from '../gallery/GalleryComponent.vue';
 import { usePageState } from '@/store/pageState';
 import PageWrapper from '../wrappers/PageWrapper.vue';
-import { markRaw } from 'vue';
-
+import { markRaw,  ref, onMounted  } from 'vue';
+import axios from 'axios';
 export default {
     name: 'GalleryPageComponent',
 
@@ -25,8 +25,18 @@ export default {
 
     setup() {
         const pageState = usePageState();
+        const projects = ref([]);
 
         const isActive = (index) => pageState.currentBlock === index;
+
+        onMounted(async () => {
+            try {
+                const response = await axios.get('/api/projects');
+                projects.value = response.data;
+            } catch (error) {
+                console.error('Ошибка загрузки проектов:', error);
+            }
+        });
 
         const mockData = {
             architecture: [

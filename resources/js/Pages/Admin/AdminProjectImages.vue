@@ -1,30 +1,49 @@
 <script setup>
-import { defineProps } from 'vue';
-import { useForm, router, Link  } from '@inertiajs/vue3';
+import { defineProps, ref } from 'vue';
+import { useForm, router, Link } from '@inertiajs/vue3';
 
 const props = defineProps({
     project: Object,
     images: Array,
 });
 
+// Массив файлов
+const files = ref([]);
+
 const form = useForm({
-    image: null,
+    images: [], // Теперь массив файлов
 });
 
-const uploadImage = () => {
-    form.post(`/admin/projects/${props.project.id}/images`, {
+// Обработчик загрузки файлов
+const handleFiles = (event) => {
+    files.value = Array.from(event.target.files); // Преобразуем FileList в массив
+};
+
+// Функция загрузки файлов
+const uploadImages = () => {
+    const formData = new FormData();
+
+    // Добавляем каждый файл в FormData
+    files.value.forEach((file, index) => {
+        formData.append(`images[${index}]`, file);
+    });
+
+    // Отправляем файлы на сервер
+    router.post(`/admin/projects/${props.project.id}/images`, formData, {
         onSuccess: () => {
-            form.reset();
+            files.value = []; // Очищаем файлы после успешной загрузки
         }
     });
 };
 
+// Удаление изображения
 const deleteImage = (id) => {
     if (confirm('Удалить это изображение?')) {
         router.delete(`/admin/projects/${props.project.id}/images/${id}`);
     }
 };
 
+// Установка обложки
 const setAsCover = (id) => {
     router.put(`/admin/projects/${props.project.id}/set-cover`, { image_id: id });
 };
@@ -41,9 +60,11 @@ const setAsCover = (id) => {
                 Назад
             </Link>
         </div>
+
         <div class="bg-white shadow rounded-lg p-4">
-            <form @submit.prevent="uploadImage" class="mb-4">
-                <input type="file" @change="form.image = $event.target.files[0]" class="border p-2">
+            <!-- Форма загрузки изображений -->
+            <form @submit.prevent="uploadImages" class="mb-4">
+                <input type="file" multiple @change="handleFiles" class="border p-2">
                 <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
                     Загрузить
                 </button>

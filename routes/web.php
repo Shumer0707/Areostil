@@ -43,6 +43,7 @@ require __DIR__.'/auth.php';
 Route::middleware('api')->prefix('api')->group(function () {
     Route::get('/test', TestController::class);
     Route::get('/projects/{id}', [ProjectController::class, 'show']);
+    Route::get('/projects', [ProjectController::class, 'index']);
     Route::get('/translations', function (Request $request) {
         $locale = App::getLocale(); // Получаем текущий язык
         Log::info("Текущий язык: " . $locale); // ✅ Проверяем в логах

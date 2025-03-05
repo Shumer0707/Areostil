@@ -45,20 +45,36 @@ class ProjectAdminController extends Controller
             'translations.ro.full_desc' => 'nullable|string',
         ]);
 
+        // ✅ Очищаем и форматируем данные перед сохранением
+        $client = trim($validated['client']);
+        $trend = trim($validated['trend']);
+
+        // Если строка после trim стала пустой — заменяем её на NULL
+        $client = $client !== '' ? $client : null;
+        $trend = $trend !== '' ? $trend : null;
+
         // 1️⃣ Создаём новый проект
         $project = Project::create([
-            'client' => $validated['client'],
-            'trend' => $validated['trend'],
+            'client' => $client,
+            'trend' => $trend,
         ]);
 
         // 2️⃣ Добавляем переводы (русский и румынский)
         foreach (['ru', 'ro'] as $locale) {
+            $title = trim($validated['translations'][$locale]['title']);
+            $short_desc = trim($validated['translations'][$locale]['short_desc'] ?? '');
+            $full_desc = trim($validated['translations'][$locale]['full_desc'] ?? '');
+
+            // Если строки после trim() пустые — делаем NULL
+            $short_desc = $short_desc !== '' ? $short_desc : null;
+            $full_desc = $full_desc !== '' ? $full_desc : null;
+
             ProjectTranslation::create([
                 'project_id' => $project->id,
                 'locale' => $locale,
-                'title' => $validated['translations'][$locale]['title'],
-                'short_desc' => $validated['translations'][$locale]['short_desc'] ?? null,
-                'full_desc' => $validated['translations'][$locale]['full_desc'] ?? null,
+                'title' => $title,
+                'short_desc' => $short_desc,
+                'full_desc' => $full_desc,
             ]);
         }
 
@@ -95,27 +111,44 @@ class ProjectAdminController extends Controller
             'translations.ro.full_desc' => 'nullable|string',
         ]);
 
+        // ✅ Очищаем и форматируем данные перед обновлением
+        $client = trim($validated['client']);
+        $trend = trim($validated['trend']);
+
+        // Если строка после trim стала пустой — заменяем её на NULL
+        $client = $client !== '' ? $client : null;
+        $trend = $trend !== '' ? $trend : null;
+
         // 1️⃣ Обновляем сам проект
         $project = Project::findOrFail($id);
         $project->update([
-            'client' => $validated['client'],
-            'trend' => $validated['trend'],
+            'client' => $client,
+            'trend' => $trend,
         ]);
 
         // 2️⃣ Обновляем переводы (если они уже есть) или создаём новые
         foreach (['ru', 'ro'] as $locale) {
+            $title = trim($validated['translations'][$locale]['title']);
+            $short_desc = trim($validated['translations'][$locale]['short_desc'] ?? '');
+            $full_desc = trim($validated['translations'][$locale]['full_desc'] ?? '');
+
+            // Если строки после trim() пустые — делаем NULL
+            $short_desc = $short_desc !== '' ? $short_desc : null;
+            $full_desc = $full_desc !== '' ? $full_desc : null;
+
             ProjectTranslation::updateOrCreate(
                 ['project_id' => $project->id, 'locale' => $locale],
                 [
-                    'title' => $validated['translations'][$locale]['title'],
-                    'short_desc' => $validated['translations'][$locale]['short_desc'] ?? null,
-                    'full_desc' => $validated['translations'][$locale]['full_desc'] ?? null,
+                    'title' => $title,
+                    'short_desc' => $short_desc,
+                    'full_desc' => $full_desc,
                 ]
             );
         }
 
         return redirect()->route('admin.projects.index')->with('success', 'Проект обновлён.');
     }
+
 
     public function destroy($id)
     {
@@ -142,19 +175,23 @@ class ProjectAdminController extends Controller
     public function uploadImage(Request $request, $id)
     {
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images' => 'required|array', // ✅ Проверяем, что пришёл массив файлов
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // ✅ Каждое изображение проходит валидацию
         ]);
 
         $project = Project::findOrFail($id);
+        $uploadedImages = [];
 
-        $path = $request->file('image')->store('project_images', 'public');
+        foreach ($request->file('images') as $image) {
+            $path = $image->store("projects/{$project->id}", 'public'); // ✅ Сохраняем в storage/public/projects/{id}
 
-        ProjectImage::create([
-            'project_id' => $project->id,
-            'image_path' => asset('storage/' . $path), // Формируем корректный путь
-        ]);
+            $uploadedImages[] = ProjectImage::create([
+                'project_id' => $project->id,
+                'image_path' => asset('storage/' . $path), // ✅ Формируем корректный путь
+            ]);
+        }
 
-        return redirect()->back()->with('success', 'Изображение загружено.');
+        return redirect()->back()->with('success', 'Изображения загружены.');
     }
 
     public function deleteImage($id, $imageId)

@@ -34,10 +34,13 @@ const submit = () => {
                     <input v-model="form.client" class="w-full border rounded p-2" type="text">
                 </div>
                 <div class="mb-4">
-                    <label class="block text-gray-700">Тренд</label>
-                    <input v-model="form.trend" class="w-full border rounded p-2" type="text">
+                    <label class="block text-gray-700">Категория</label>
+                    <select v-model="form.trend" class="w-full border rounded p-2">
+                        <option value="architecture">Architecture</option>
+                        <option value="engineering">Engineering</option>
+                        <option value="design">Design</option>
+                    </select>
                 </div>
-
                 <!-- Русский перевод -->
                 <h2 class="text-xl font-semibold mb-2">Русский</h2>
                 <div class="mb-4">

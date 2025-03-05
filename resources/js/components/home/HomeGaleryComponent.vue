@@ -18,7 +18,7 @@
             <div :class="['w-full h-1/3 bg-my_black bg-cover bg-center rounded-lg shadow-lg transform scale-1 transition-transform duration-700 z-30',
                 'hover-effect lg:rotate-y--40 lg:w-1/3 lg:h-full'
             ]">
-                <a href="/link1"
+                <a href="/gallery"
                 :tabindex="isActive ? '0' : '-1'"
                 >
                 <img :src="$getImageUrl('/img/home/galery/galery-1.jpg')" alt="Фото 2" class="w-full h-full object-cover" />
