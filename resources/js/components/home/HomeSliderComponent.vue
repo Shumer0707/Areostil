@@ -9,12 +9,12 @@
                     :class="{'opacity-100': index === currentSlide, 'opacity-0': index !== currentSlide}"
                 />
                 <div
-                    class="absolute inset-0 bg-black bg-opacity-50 transition-opacity duration-500 ease-in-out"
+                    class="absolute inset-0 bg-black bg-opacity-60 transition-opacity duration-500 ease-in-out"
                     :class="{'opacity-100': index === currentSlide, 'opacity-0': index !== currentSlide}"
                 ></div>
                 <div
                     v-if="index === currentSlide"
-                    class="absolute inset-0 flex flex-col justify-center items-start p-8 transition-all duration-1000 ease-in-out transform scale-90 opacity-0"
+                    class="absolute inset-0 flex flex-col justify-center items-start  transition-all duration-1000 ease-in-out transform scale-90 opacity-0"
                     :class="{ 'opacity-100 scale-100': index === currentSlide }"
                     :style="slide.style"
                 >
@@ -51,8 +51,8 @@ let timeoutId = null;
 // ✅ Определяем слайды с ключами для перевода
 const slides = ref([
     { image: '/img/home/slider/img1.jpg', title: 'home.slider_1_title', description: 'home.slider_1_description', style: { top: '20%', left: '10%' } },
-    { image: '/img/home/slider/img2.jpg', title: 'home.slider_2_title', description: 'home.slider_2_description', style: { bottom: '15%', right: '10%' } },
-    { image: '/img/home/slider/img3.jpg', title: 'home.slider_3_title', description: 'home.slider_3_description', style: { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' } }
+    { image: '/img/home/slider/img2.jpg', title: 'home.slider_2_title', description: 'home.slider_2_description', style: { bottom: '30%', right: '10%' } },
+    { image: '/img/home/slider/img3.jpg', title: 'home.slider_3_title', description: 'home.slider_3_description', style: { top: '50%', left: '50%'} }
 ]);
 
 // ✅ Автоматически переводим слайды при изменении переводов

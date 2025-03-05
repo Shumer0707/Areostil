@@ -46,7 +46,7 @@
             <!-- Контакты и соцсети -->
             <div class="text-center  w-1/3 md:text-right ">
                 <p class="text-sm">Phone: <a href="tel:+373987456321" class="hover:text-primary">+373 987 456 321</a></p>
-                <p class="text-sm">Email: <a href="mailto:areostil_info@gmail.com" class="hover:text-primary">areostil_info@gmail.com</a></p>
+                <p class="text-sm">Email: <a href="mailto:areostil@mail.com" class="hover:text-primary">areostil@mail.ru</a></p>
 
                 <div class="flex justify-center md:justify-end gap-4 mt-3">
                     <a href="#" class="text-gray-400 hover:text-primary transition">

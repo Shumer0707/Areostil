@@ -7,27 +7,16 @@
 
         <!-- Контейнер с контентом -->
         <div
-            v-if="translationsLoaded"
             class="transition-all ease-out duration-700 will-change-transform"
-            :class="{ 'opacity-100 translate-y-0': showContent, 'opacity-0 translate-y-4': !showContent }"
         >
             <slot />
-        </div>
-
-        <!-- Лоадер -->
-        <div
-            v-if="!translationsLoaded"
-            class="flex justify-center items-center h-full transition-opacity duration-500 ease-in"
-        >
-            <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-white"></div>
         </div>
     </main>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue';
 import { usePageState } from '@/store/pageState';
-import { useLocalizationStore } from '@/store/localization';
 
 // ✅ Получаем `props` с totalBlocks
 const props = defineProps({
@@ -36,28 +25,9 @@ const props = defineProps({
         required: true
     }
 });
-
+const totalBlocks = ref(props.totalBlocks);
 // 📌 Pinia Stores
 const pageState = usePageState();
-const localizationStore = useLocalizationStore();
-// Флаг для активации анимации
-const showContent = ref(false);
-
-// ✅ Проверяем, загружены ли переводы
-const translationsLoaded = computed(() => {
-    return localizationStore.translations && Object.keys(localizationStore.translations).length > 0;
-});
-
-// ✅ Загружаем переводы при монтировании
-onMounted(async () => {
-    if (!translationsLoaded.value) {
-        await localizationStore.fetchTranslations();
-    }
-    // Даем Vue отрендерить div, а затем включаем анимацию
-    setTimeout(() => {
-        showContent.value = true;
-    }, 10);
-});
 
 // ✅ Фоновые изображения
 const backgrounds = [
@@ -68,12 +38,6 @@ const backgrounds = [
 
 // ✅ Выбираем случайный фон
 const randomBackground = computed(() => backgrounds[Math.floor(Math.random() * backgrounds.length)]);
-
-// ✅ Обновляем количество блоков в `pageState`
-onMounted(() => {
-    pageState.updateTotalBlocks(props.totalBlocks); // 👈 Теперь используем `props.totalBlocks`
-    pageState.updateCurrentBlock(pageState.currentBlock);
-});
 
 // ✅ Переключение блоков
 const nextBlock = () => {
@@ -142,22 +106,23 @@ onBeforeUnmount(() => {
 <style scoped>
 @keyframes background-move {
     0% {
+        filter: blur(0px);
         background-position: 50% 50%;
         transform: rotate(0deg) scale(1.02);
     }
     25% {
-        background-position: 52% 48%;
-        transform: rotate(1deg) scale(1.04);
+        transform: rotate(0.5deg) scale(1.03);
     }
     50% {
-        background-position: 48% 52%;
-        transform: rotate(-1deg) scale(1.02);
+        filter: blur(5px);
+        background-position: 49% 51%;
+        transform: scale(1.02);
     }
     75% {
-        background-position: 51% 49%;
-        transform: rotate(0.5deg) scale(1.04);
+        transform: rotate(-0.5deg) scale(1.03);
     }
     100% {
+        filter: blur(0px);
         background-position: 50% 50%;
         transform: rotate(0deg) scale(1.02);
     }

@@ -16,11 +16,13 @@ export const usePageState = defineStore('pageState', {
   actions: {
     updateCurrentBlock(block) {
       // Обновляет текущий блок
+    //   console.log(`[Pinia] updateCurrentBlock вызван, новое значение: ${block}`);
       this.currentBlock = block;
     //   console.log(`[Pinia] Current block updated: ${block}`);
     },
     updateTotalBlocks(total) {
       // Обновляет общее количество блоков
+    //   console.log(`[Pinia] updateTotalBlocks вызван, новое значение: ${total}`);
       this.totalBlocks = total;
     },
     disableScroll() {

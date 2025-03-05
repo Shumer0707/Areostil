@@ -42,7 +42,7 @@ export default {
             }else if(newValue === 'animation-slide-down-start'){
                 animationHeaderButton.value = 'animation-slide-down-start-button';
             }
-            console.log(animationHeaderButton.value);
+            // console.log(animationHeaderButton.value);
 
         });
 

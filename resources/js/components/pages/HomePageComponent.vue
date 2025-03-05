@@ -1,15 +1,18 @@
 <template>
-    <PageWrapper :total-blocks="components.length">
+    <PageWrapper v-show="translationsLoaded" :total-blocks="components.length">
         <div v-for="(component, index) in components"
-             :key="index"
+             :key="component + '-' + index"
              :class="['w-full h-screen absolute transition-transform duration-1000 ease-in-out',
-                      isActive(index) ? 'translate-y-0' : 'translate-y-full']">
+             isActive(index) ? 'translate-y-0' : 'translate-y-full']">
+
             <component :is="component" :isActive="isActive(index)" />
         </div>
     </PageWrapper>
 </template>
 
-<script>
+<script setup>
+import { computed, onMounted, markRaw } from 'vue';
+import { useLocalizationStore } from '@/store/localization';
 import PageWrapper from '../wrappers/PageWrapper.vue';
 import HomeSliderComponent from '../home/HomeSliderComponent.vue';
 import HomeAboutUsComponent from '../home/HomeAboutUsComponent.vue';
@@ -17,39 +20,30 @@ import HomeGaleryComponent from '../home/HomeGaleryComponent.vue';
 import HomeVideoCarouselComponent from '../home/HomeVideoCarouselComponent.vue';
 import { usePageState } from '@/store/pageState';
 
-export default {
-    name: 'HomeComponent',
+// ✅ Pinia Store
+const pageState = usePageState();
+const localizationStore = useLocalizationStore();
 
-    components: {
-        PageWrapper,
-        HomeSliderComponent,
-        HomeAboutUsComponent,
-        HomeGaleryComponent,
-        // HomeVideoCarouselComponent,
-    },
+// ✅ НЕ делаем массив реактивным (markRaw)
+const components = markRaw([
+    HomeSliderComponent,
+    HomeAboutUsComponent,
+    HomeGaleryComponent,
+    // HomeVideoCarouselComponent,
+]);
 
-    setup() {
-        const pageState = usePageState();
+// ✅ Проверка загрузки переводов
+const translationsLoaded = computed(() => {
+    return localizationStore.translations && Object.keys(localizationStore.translations).length > 0;
+});
 
-        const isActive = (index) => {
-            // Определяем, активен ли текущий компонент
-            return pageState.currentBlock === index;
-        };
+// ✅ Функция определения активного блока
+const isActive = (index) => pageState.currentBlock === index;
 
-        return { pageState, isActive };
-    },
-
-    data() {
-        return {
-            components: [
-                'HomeSliderComponent',
-                'HomeAboutUsComponent',
-                'HomeGaleryComponent',
-                // 'HomeVideoCarouselComponent'
-            ]
-        };
-    }
-};
+// ✅ Лог при монтировании
+onMounted(() => {
+    pageState.updateTotalBlocks(components.length);
+});
 </script>
 
 <style>
