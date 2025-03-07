@@ -5,10 +5,10 @@
             <!-- Левая часть: Заголовок, клиент, описание -->
             <div class="w-full h-full lg:w-1/3 md:py-6 md:pl-6 flex">
                 <div class="w-full h-full flex flex-col items-center justify-center bg-my_crem_op text-left space-y-2 lg:space-y-4 p-6 pt-20">
-                    <h1 class="text-xl lg:text-4xl font-bold text-my_black leading-tight">
+                    <h1 class="text-xl text-center lg:text-4xl font-bold text-my_black leading-tight">
                         {{ projectTitle }}
                     </h1>
-                    <p class="text-md md:text-xl font-semibold text-my_black">
+                    <p class="text-md md:text-xl font-semibold text-my_black text-center">
                         {{ project.client }}
                     </p>
                     <p class="text-sm md:text-lg text-my_black leading-relaxed">
@@ -59,20 +59,18 @@
                             :src="image.image_path"
                             alt="Project image"
                             class="w-full h-full object-cover shadow-lg hover:scale-110 transition-all duration-500 cursor-pointer"
-                            @click="openModal(index)"
+                            @click="openImageModal(index)"
                         />
                     </div>
                 </SwiperSlide>
             </Swiper>
         </div>
 
-        <!-- Модальное окно с увеличенными фото -->
-        <div v-if="isModalOpen" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[10000]">
+        <!-- <div v-if="isModalOpen" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[10000]">
             <div class="relative w-full max-w-5xl h-[80vh] bg-white p-4 rounded-lg shadow-lg z-[9999]">
-                <!-- Закрыть модалку -->
+
                 <button @click="closeModal" class="cursor-pointer absolute top-4 right-4 text-my_black text-5xl z-[9999]">&times;</button>
 
-                <!-- Swiper внутри модального окна -->
                 <Swiper
                     :modules="[Navigation, Pagination]"
                     navigation
@@ -92,11 +90,12 @@
                     </SwiperSlide>
                 </Swiper>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
 <script setup>
+import { useModalStore } from '@/store/modalStore';
 import { ref, computed } from 'vue';
 import SwiperCore from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -120,27 +119,11 @@ const projectTitle = computed(() => props.project?.translation?.title || 'Наз
 // ✅ Гарантированно получаем описание проекта
 const projectDescription = computed(() => props.project?.translation?.short_desc || 'Описание проекта пока недоступно.');
 
-// ✅ Управление модальным окном
-const isModalOpen = ref(false);
-const activeSlide = ref(0);
+const modalStore = useModalStore();
 
-// ✅ Открытие модального окна
-const openModal = (index) => {
-    activeSlide.value = index;
-    isModalOpen.value = true;
+const openImageModal = (index) => {
+    modalStore.openModal(index, props.project.images);
 };
 
-// ✅ Закрытие модального окна
-const closeModal = () => {
-    isModalOpen.value = false;
-};
 </script>
 
-<style>
-/* Стилизация кнопки закрытия */
-
-/* Убираем лишнее выделение */
-/* button:focus {
-    outline: none;
-} */
-</style>

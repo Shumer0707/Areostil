@@ -37,10 +37,8 @@ const translationsLoaded = computed(() => {
     return localizationStore.translations && Object.keys(localizationStore.translations).length > 0;
 });
 
-// ✅ Функция определения активного блока
 const isActive = (index) => pageState.currentBlock === index;
 
-// ✅ Лог при монтировании
 onMounted(() => {
     pageState.updateTotalBlocks(components.length);
 });

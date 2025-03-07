@@ -5,6 +5,7 @@
     <div v-else>
       <HeaderComponent />
       <ButtonDownComponent />
+      <ModalSliderComponent />
       <div
             class="transition-all ease-out duration-1000 will-change-transform"
             :class="{ 'opacity-100 translate-y-0': showContent, 'opacity-0 translate-y-10': !showContent }"
@@ -21,6 +22,7 @@
   import HeaderComponent from "../components/static/HeaderComponent.vue";
   import FooterComponent from "../components/static/FooterComponent.vue";
   import ButtonDownComponent from "../components/static/ButtonDownComponent.vue";
+import ModalSliderComponent from "../components/static/ModalSliderComponent.vue";
 
   const localizationStore = useLocalizationStore();
   const translationsLoaded = computed(() => Object.keys(localizationStore.translations).length > 0);

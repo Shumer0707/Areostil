@@ -29,6 +29,9 @@ export default{
         const navigateDown = () => {
             if (!isBottom.value) {
                 pageState.updateCurrentBlock(pageState.currentBlock + 1);
+            }else{
+                pageState.toggleOverlay(true);
+                pageState.disableScroll();
             }
         };
         return{actionByttonDown, navigateDown};

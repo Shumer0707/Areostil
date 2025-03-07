@@ -71,4 +71,11 @@ const addComponent = (component, props = {}) => {
         props
     });
 };
+
+onMounted(() => {
+    console.log(components.value.length);
+
+    pageState.updateTotalBlocks(components.value.length);
+});
+
 </script>

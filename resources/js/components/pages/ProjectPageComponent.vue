@@ -38,4 +38,7 @@ onMounted(async () => {
     }
     pageState.updateTotalBlocks(components.length);
 });
+onMounted(() => {
+    pageState.updateTotalBlocks(components.length);
+});
 </script>

@@ -9,35 +9,22 @@
     </PageWrapper>
 </template>
 
-<script>
+<script setup>
+import { onMounted, markRaw } from 'vue';
 import ContactComponent from '../contact/ContactComponent.vue'
 import { usePageState } from '@/store/pageState';
 import PageWrapper from '../wrappers/PageWrapper.vue';
-export default {
-    name: 'ContactPageComponent',
 
-    components: {
-        PageWrapper,
-        ContactComponent,
-    },
+const pageState = usePageState();
 
-    setup() {
-        const pageState = usePageState();
+// ✅ НЕ делаем массив реактивным (markRaw)
+const components = markRaw([
+    ContactComponent
+]);
 
-        const isActive = (index) => {
-            // Определяем, активен ли текущий компонент
-            return pageState.currentBlock === index;
-        };
+const isActive = (index) => pageState.currentBlock === index;
 
-        return { pageState, isActive };
-    },
-
-    data() {
-        return {
-            components: [
-                'ContactComponent',
-            ]
-        };
-    }
-};
+onMounted(() => {
+    pageState.updateTotalBlocks(components.length);
+});
 </script>
