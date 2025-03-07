@@ -8,7 +8,7 @@ import ProjectPageComponent from './components/pages/ProjectPageComponent.vue';
 const routes = [
   { path: '/', component: HomePageComponent, meta: { title: 'HomePage - Areostil Pro' }},
   { path: '/about', component: AboutPageComponent, meta: { title: 'About - Areostil Pro' }},
-  { path: '/gallery', component: GaleryPageComponent, meta: { title: 'Gallery - Areostil Pro' }},
+  { path: '/gallery/:category?', component: GaleryPageComponent, meta: { title: 'Gallery - Areostil Pro' }},
   { path: '/contact', component: ContactPageComponent, meta: { title: 'Contact - Areostil Pro' }},
   { path: '/project/:id', component: ProjectPageComponent, props: true, meta: { title: 'Project - Areostil Pro' }},
 ];

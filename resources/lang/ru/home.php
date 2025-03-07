@@ -19,6 +19,6 @@ return [
     'gallery_block2_description'=>'Каждый наш проект — это гармония формы, света и пространства. Исследуйте галерею и рассмотрите детали, которые делают наши работы уникальными.',
 
     'gallery_Architecture'=>'Архитектура',
-    'gallery_Engineering'=>'Инжиниринг',
+    'gallery_Engineering'=>'Инжениринг',
     'gallery_Design'=>'Дизайн',
 ];

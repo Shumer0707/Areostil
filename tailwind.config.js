@@ -33,7 +33,9 @@ export default {
                 my_gray: 'rgba(51, 65, 85)',
                 my_gray_op: 'rgba(51, 65, 85, 0.3)',
                 my_pink: 'rgba(244, 63, 94)',
-                my_pink_op: 'rgba(244, 63, 94, 0.3)'
+                my_pink_op: 'rgba(244, 63, 94, 0.3)',
+                my_crem: 'rgba(117, 110, 106)',
+                my_crem_op: 'rgba(117, 110, 106, 0.7)',
             },
             transitionDelay: {
                 1500: '1500ms',

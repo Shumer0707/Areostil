@@ -1,43 +1,41 @@
 <template>
-    <section class="relative w-full h-screen flex flex-col items-center justify-evenly bg-cover bg-center overflow-hidden">
-      <div v-if="loading" class="text-center text-xl">Загрузка...</div>
-      <div v-else>
-        <h1 class="text-3xl font-bold mb-4">{{ project.title }}</h1>
-        <p class="mb-4">{{ project.short_desc }}</p>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <img v-for="(photo, index) in project.images" :key="index" :src="photo.url" class="rounded-lg shadow-md" />
+    <PageWrapper :total-blocks="components.length">
+        <div v-for="(component, index) in components"
+             :key="component + '-' + index"
+             :class="['w-full h-screen absolute transition-transform duration-1000 ease-in-out',
+             isActive(index) ? 'translate-y-0' : 'translate-y-full']">
+
+            <component :is="component" :isActive="isActive(index)" :project="project" v-if="project"/>
         </div>
-      </div>
-    </section>
-  </template>
+    </PageWrapper>
+</template>
 
-  <script>
-  import axios from 'axios';
+<script setup>
+import { ref, onMounted, markRaw } from 'vue';
+import axios from 'axios';
+import { useRoute } from 'vue-router';
+import PageWrapper from '../wrappers/PageWrapper.vue';
+import ProjectComponent from '../projectpage/ProjectComponent.vue';
+import { usePageState } from '@/store/pageState';
 
-  export default {
-    name: 'ProjectPageComponent',
-    props: ['id'],  // Получаем id проекта из URL
-    data() {
-      return {
-        project: {},
-        loading: true
-      };
-    },
-    mounted() {
-      this.fetchProject();
-    },
-    methods: {
-      fetchProject() {
-        axios.get(`/api/projects/${this.id}`)
-          .then(response => {
-            this.project = response.data;
-            this.loading = false;
-          })
-          .catch(error => {
-            console.error('Ошибка загрузки проекта:', error);
-            this.loading = false;
-          });
-      }
+// ✅ Получаем `id` из роута
+const route = useRoute();
+const project = ref(null);
+const pageState = usePageState();
+
+// ✅ НЕ делаем массив реактивным (markRaw)
+const components = markRaw([ProjectComponent]);
+
+const isActive = (index) => pageState.currentBlock === index;
+
+// ✅ Загружаем проект при монтировании
+onMounted(async () => {
+    try {
+        const response = await axios.get(`/api/projects/${route.params.id}`);
+        project.value = response.data;
+    } catch (error) {
+        console.error('Ошибка загрузки проекта:', error);
     }
-  }
-  </script>
+    pageState.updateTotalBlocks(components.length);
+});
+</script>

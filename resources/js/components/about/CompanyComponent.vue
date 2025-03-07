@@ -1,7 +1,7 @@
 <template>
     <section class="relative w-full h-screen flex items-center justify-between bg-cover bg-center overflow-hidden">
       <!-- Блок с текстом слева -->
-      <div class="absolute pt-32 md:pt-4 top-0 md:top-1/3 left-0 w-full md:w-3/4 md:h-1/3 h-2/5 flex z-10 bg-my_gray_op flex-col md:px-32 px-4 z-10 justify-center">
+      <div class="absolute pt-32 md:pt-4 top-0 md:top-1/3 left-0 w-full md:w-3/4 md:h-1/3 h-2/5 flex z-10 bg-my_crem_op flex-col md:px-32 px-4 z-10 justify-center">
         <h2 class="text-3xl lg:text-5xl font-bold text-my_black mb-4">{{ $t('about.about_1_title') }}</h2>
         <p class="text-md lg:text-lg text-my_black mb-6 font-bold">
           {{ $t('about.about_1_description') }}
@@ -11,18 +11,18 @@
       <!-- Блок с фото низ -->
       <div class="absolute bottom-0 w-full h-2/5 md:h-1/3 flex z-20">
         <div :class="['absolute lg:w-1/4 w-1/2 h-full flex items-center justify-center shadow-2xl overflow-hidden transition-all duration-1000', img1Class]">
-          <img :src="$getImageUrl('/img/home/about/right.jpg')" alt="Фото 5" class="w-full h-full object-cover" />
+          <img :src="$getImageUrl(`/img/about/${ photos[0]}`)" alt="company-1" class="w-full h-full object-cover" />
         </div>
         <div :class="['absolute lg:w-1/4 w-1/2 h-full flex items-center justify-center shadow-2xl overflow-hidden transition-all duration-1000', img2Class]">
-          <img :src="$getImageUrl('/img/home/about/right-2.jpg')" alt="Фото 6" class="w-full h-full object-cover" />
+          <img :src="$getImageUrl(`/img/about/${ photos[1]}`)" alt="company-2" class="w-full h-full object-cover" />
         </div>
         <div :class="['absolute lg:w-1/4 w-1/3 h-full hidden md:flex items-center justify-center shadow-2xl overflow-hidden transition-all duration-1000', img3Class]">
-          <img :src="$getImageUrl('/img/home/about/right-3.jpg')" alt="Фото 7" class="w-full h-full object-cover" />
+          <img :src="$getImageUrl(`/img/about/${ photos[2]}`)" alt="company-3" class="w-full h-full object-cover" />
         </div>
       </div>
 
       <!-- Блок с цифрами справа -->
-      <div class="absolute md:right-0 md:w-1/4 h-1/5 md:h-full flex md:flex-col z-10 bg-my_gray_op items-center justify-between p-4 md:pt-32 md:pb-16">
+      <div class="absolute md:right-0 md:w-1/4 h-1/5 md:h-full flex md:flex-col z-10 bg-my_crem_op items-center justify-between p-4 md:pt-32 md:pb-16">
         <div class="md:flex hidden flex-col items-center justify-center">
           <h2 class="text-1xl md:text-5xl font-bold text-my_black mb-4 select-none">{{ counter1 }}<span class="text-my_pink">+</span></h2>
           <p class="text-md md:text-lg text-my_black mb-6 font-bold">{{ $t('about.about_1_clients') }}</p>
@@ -45,6 +45,7 @@
 
   <script setup>
   import { ref, watch, onMounted, nextTick} from "vue";
+  import { getRandomPhotos } from '@/utils/random'; // Импортируем функцию
 
   // ✅ Принимаем проп `isActive`
   const props = defineProps({
@@ -138,4 +139,18 @@
       startCounting(counter4, max4, 1500);
     }
   });
+
+  const allPhotos = [ 'people-1.webp', 'people-2.webp', 'people-3.webp', 'people-4.webp', 'people-5.webp', 'people-6.webp',
+'people-9.webp', 'people-10.webp', 'people-11.webp',
+];
+
+const photos = ref(getRandomPhotos(allPhotos, 3));
+
+
+watch(() => props.isActive, (newVal) => {
+    if (newVal) {
+        photos.value = getRandomPhotos(allPhotos, 3);
+    }
+});
+
   </script>

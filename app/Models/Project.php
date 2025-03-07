@@ -4,23 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
 
 class Project extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['client', 'trend'];
+    protected $fillable = ['client', 'cover_image', 'trend'];
 
     public function translations()
     {
         return $this->hasMany(ProjectTranslation::class);
     }
 
-    public function getTranslation($locale)
+    // ✅ Добавляем новое отношение для одного нужного перевода
+    public function translation()
     {
-        return $this->translations()->where('locale', $locale)->first();
+        return $this->hasOne(ProjectTranslation::class)->where('locale', App::getLocale());
     }
-    // Связь: проект имеет много изображений
+
     public function images()
     {
         return $this->hasMany(ProjectImage::class);

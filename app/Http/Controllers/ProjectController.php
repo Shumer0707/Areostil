@@ -9,14 +9,15 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        $projects = Project::with(['translations', 'images'])->get();
-        return response()->json($projects);
+        $project = Project::get();
+
+        return response()->json($project);
     }
 
     public function show($id)
     {
         // Загружаем проект вместе с его изображениями
-        $project = Project::with('images')->findOrFail($id);
+        $project = Project::with(['translation', 'images'])->findOrFail($id);
 
         return response()->json($project);
     }

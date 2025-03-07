@@ -19,4 +19,8 @@ html, body {
     padding: 0;
     overflow: hidden;
     height: 100%;
+    background-color: rgba(117, 110, 106, 0.7);
+}
+.header-transparent {
+    pointer-events: none;
 }

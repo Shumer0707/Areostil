@@ -11,6 +11,9 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\HomeController;
+
+Route::get('/dev', [HomeController::class, 'index']);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

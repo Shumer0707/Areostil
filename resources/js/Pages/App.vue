@@ -1,13 +1,13 @@
 <template>
-    <div v-if="!translationsLoaded" class="flex justify-center items-center h-screen bg-primary">
+    <div v-if="!translationsLoaded" class="flex justify-center items-center h-screen bg-my_crem">
       <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-white"></div>
     </div>
     <div v-else>
       <HeaderComponent />
       <ButtonDownComponent />
       <div
-            class="transition-all ease-out duration-700 will-change-transform"
-            :class="{ 'opacity-100 translate-y-0': showContent, 'opacity-0 translate-y-4': !showContent }"
+            class="transition-all ease-out duration-1000 will-change-transform"
+            :class="{ 'opacity-100 translate-y-0': showContent, 'opacity-0 translate-y-10': !showContent }"
         >
             <router-view /> <!-- Основной контент приложения -->
         </div>

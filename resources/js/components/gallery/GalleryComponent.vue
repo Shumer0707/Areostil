@@ -1,39 +1,37 @@
 <template>
     <section class="relative w-full h-screen flex flex-col items-center justify-evenly bg-cover bg-center overflow-hidden">
-        <div class="font-serif bg-my_gray_op w-full h-1/4 flex flex-col md:flex-row px-24 lg:px-48 items-center justify-evenly text-2xl md:text-3xl select-none">
-            <p><a :class="['hover:border-b-2 hover:border-b-my_pink md:hover:border-b-my_pink_op p-2',
-            currentCategory === 'architecture' ? 'border-b-2 border-b-my_pink' : '']"
-                href="" @click.prevent="setCategory('architecture')">
-                {{ $t('home.gallery_Architecture') }}
-            </a></p>
-            <p><a :class="['hover:border-b-2 hover:border-b-my_pink md:hover:border-b-my_pink_op p-2',
-            currentCategory === 'engineering' ? 'border-b-2 border-b-my_pink' : '']"
-                href="" @click.prevent="setCategory('engineering')">
-                {{ $t('home.gallery_Engineering') }}
-            </a></p>
-            <p><a :class="['hover:border-b-2 hover:border-b-my_pink md:hover:border-b-my_pink_op p-2',
-            currentCategory === 'design' ? 'border-b-2 border-b-my_pink' : '']"
-                href="" @click.prevent="setCategory('design')">
-                {{ $t('home.gallery_Design') }}
-            </a></p>
+        <!-- Категории -->
+
+        <div class="text-my_black font-serif font-bold bg-my_crem_op w-full h-1/4 flex flex-col md:flex-row px-24 lg:px-48 items-center justify-evenly text-2xl md:text-3xl select-none">
+            <p v-for="category in categories" :key="category.value">
+                <a
+                    :class="['hover:border-b-2 hover:border-b-my_pink md:hover:border-b-my_pink_op p-2 ',
+                            selectedCategory === category.value ? 'border-b-2 border-b-my_pink' : '']"
+                    href=""
+                    @click.prevent="setCategory(category.value)"
+                >
+                    {{ $t(category.label) }}
+                </a>
+            </p>
         </div>
-        <!-- карусель -->
-        <div class="bg-my_gray_op w-full h-2/4 relative flex items-center">
+
+        <!-- Карусель -->
+        <div class="bg-my_crem_op w-full h-2/4 relative flex items-center">
             <Swiper
-                v-if="currentItems.length > 0"
+                v-if="filteredProjects.length > 0"
+                :key="filteredProjects.length"
                 effect="coverflow"
                 navigation
-                pagination
+                :pagination="{ clickable: true }"
                 loop
                 watchOverflow
                 centeredSlides
                 :spaceBetween="30"
                 :breakpoints="{
-                    320: { slidesPerView: 1 },   // Мобильные (до 640px)
-                    640: { slidesPerView: 2 },   // Планшеты (от 640px)
-                    1024: { slidesPerView: 3 }   // Десктопы (от 1024px)
+                    320: { slidesPerView: 1 },
+                    640: { slidesPerView: 2 },
+                    1024: { slidesPerView: 3 }
                 }"
-
                 :coverflowEffect="{
                     rotate: 50,
                     stretch: 0,
@@ -43,14 +41,18 @@
                 }"
                 class="h-full w-full"
             >
-                <SwiperSlide v-for="(item, index) in currentItems" :key="index">
-                    <router-link :to="`/project/${item.id}`" class="cursor-pointer">
-                        <img :src="$getImageUrl(item.image)"
-                            :alt="item.name"
-                            class="rounded-2xl shadow-lg object-cover w-full h-full max-w-full max-h-full" />
-                        <div class="absolute bottom-4 left-4 bg-my_gray_op p-2 rounded-lg text-white">
-                            <h3 class="text-xl font-bold">{{ item.name }}</h3>
-                            <p class="text-sm">{{ item.details }}</p>
+                <SwiperSlide v-for="(item, index) in filteredProjects" :key="index">
+                    <router-link :to="`/project/${item.id}`" class="cursor-pointer block w-full h-full">
+                        <div class="relative w-full h-full ">
+                            <img
+                                :src="item.cover_image"
+                                :alt="item.client"
+                                class="absolute top-0 left-0 w-full h-full object-cover shadow-lg hover:scale-110 transition-all duration-500"
+                            />
+                            <div class="absolute bottom-4 left-4 bg-my_gray_op p-2 text-my_white">
+                                <h3 class="text-xl font-bold">{{ item.client }}</h3>
+                                <p class="text-sm">{{ item.trend }}</p>
+                            </div>
                         </div>
                     </router-link>
                 </SwiperSlide>
@@ -59,7 +61,8 @@
     </section>
 </template>
 
-<script>
+<script setup>
+import { computed, ref, watch, toRef } from 'vue';
 import SwiperCore from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation, Pagination, EffectCoverflow } from 'swiper';
@@ -69,50 +72,47 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-coverflow';
 
-export default {
-    name: 'GaleryComponent',
-    components: {
-        Swiper,
-        SwiperSlide
-    },
-    props: {
-    isActive: {
-        type: Boolean,
-        required: true
-    },
-    title: {
-        type: String,
-        required: true
-    },
-    description: {
-        type: String,
-        required: true
-    },
-    allItems: {  // Исправлено название пропа
-        type: Object,
-        default: () => ({
-            architecture: [],
-            engineering: [],
-            design: []
-        })
+// ✅ Корректно объявляем `props`
+const props = defineProps({
+    isActive: Boolean,
+    currentCategory: String,
+    projects: {
+        type: Array,
+        default: () => []
     }
-    },
-    data() {
-        return {
-            currentItems: [],  // Изменено название, чтобы избежать конфликта с пропсом
-            currentCategory: 'architecture'  // Устанавливаем категорию по умолчанию
-        };
-    },
-    mounted() {
-        this.setCategory(this.title);
-    },
-    methods: {
-        setCategory(type) {
-            this.currentCategory = type;
-            this.currentItems = this.allItems[type] || [];  // Исправленное обращение к пропсу
-        }
-    }
-}
+});
+
+// ✅ Делаем `projects` реактивным
+const projectsRef = toRef(props, 'projects');
+
+const categories = ref([
+    { value: 'architecture', label: 'home.gallery_Architecture' },
+    { value: 'engineering', label: 'home.gallery_Engineering' },
+    { value: 'design', label: 'home.gallery_Design' }
+]);
+
+const selectedCategory = ref(props.currentCategory || 'architecture');
+
+// ✅ Фильтрация проектов по `trend`
+const filteredProjects = computed(() => {
+    // console.log("Фильтрация проектов для категории:", selectedCategory.value);
+    return projectsRef.value.filter(project => project.trend === selectedCategory.value);
+});
+
+// ✅ Изменение категории
+const setCategory = (category) => {
+    selectedCategory.value = category;
+};
+
+// ✅ Следим за изменением `currentCategory`
+watch(() => props.currentCategory, (newCategory) => {
+    selectedCategory.value = newCategory || 'architecture';
+});
+
+// ✅ Следим за изменением `filteredProjects`
+watch(filteredProjects, (newProjects) => {
+    console.log("Отфильтрованные проекты:", newProjects);
+});
 </script>
 
 <style>
@@ -123,7 +123,7 @@ export default {
     top: 50%;
     transform: translateY(-50%);
     position: absolute;
-    z-index: 9999;
+    z-index: 60;
     cursor: pointer;
     pointer-events: auto;
 }
@@ -135,7 +135,7 @@ export default {
 
 .swiper-pagination {
     bottom: 10px;
-    z-index: 10;
+    z-index: 60;
 }
 
 .swiper-pagination-bullet {

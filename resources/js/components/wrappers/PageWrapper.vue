@@ -3,7 +3,7 @@
         <!-- Фоновое изображение -->
         <div class="absolute inset-0 bg-cover bg-center animate-background-move"
              :style="{ backgroundImage: `url(${randomBackground})` }"></div>
-        <div class="absolute inset-0 bg-primary bg-opacity-50"></div>
+        <div class="absolute inset-0 bg-my_gray_op bg-opacity-50"></div>
 
         <!-- Контейнер с контентом -->
         <div

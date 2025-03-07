@@ -3,7 +3,7 @@
     <header
         @animationend="handleAnimationEnd"
         :class="[animationHeader,
-            'fixed z-30 transition-all duration-1000 transform ease-in-out text-my_white top-0 right-0 w-full h-32 px-4 py-8',
+            'fixed z-[100] transition-all duration-1000 transform ease-in-out text-my_white top-0 right-0 w-full h-32 px-4 py-8',
             'md:h-40 md:px-16',
             // 'lg:px-16',
         ]"
