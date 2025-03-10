@@ -2,12 +2,17 @@
     <section class="relative w-full h-screen overflow-hidden">
 
      <div class="relative z-10 flex lg:flex-row flex-col w-full h-full">
-        <div class="lg:w-1/3 w-full relative z-10 lg:flex items-center lg:h-full h-1/3 lg:py-0 py-8 flex-wrap bg-my_black text-primary">
-            <div class="lg:border border-my_pink lg:p-8 p-4">
+        <!-- Контейнер с текстом -->
+        <div class="lg:w-1/3 w-full relative z-10 lg:flex items-center lg:h-full h-1/3 lg:py-0 py-8 flex-wrap bg-my_crem_op text-my_black">
+            <div class="bg-my_crem  lg:p-8 p-4">
                 <h3 class="font-serif lg:text-3xl text-2xl font-bold mb-4">{{ $t('home.gallery_block1_title') }}</h3>
                 <p class="font-sans lg:text-lg text-md">{{ $t('home.gallery_block1_description') }}</p>
             </div>
-            <div class="lg:border border-my_pink lg:p-8 p-4 hidden md:block">
+            <div class="bg-my_crem lg:p-8 p-4 hidden md:block">
+                <h3 class="font-serif lg:text-3xl text-2xl font-bold mb-4">{{ $t('home.gallery_block2_title') }}</h3>
+                <p class="font-sans lg:text-lg text-md">{{ $t('home.gallery_block2_description') }}</p>
+            </div>
+            <div class="bg-my_crem lg:p-8 p-4 hidden md:block">
                 <h3 class="font-serif lg:text-3xl text-2xl font-bold mb-4">{{ $t('home.gallery_block2_title') }}</h3>
                 <p class="font-sans lg:text-lg text-md">{{ $t('home.gallery_block2_description') }}</p>
             </div>

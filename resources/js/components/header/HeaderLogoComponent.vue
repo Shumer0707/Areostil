@@ -1,11 +1,12 @@
 <template>
     <div
         :class="[
-            'text-xl font-bold transition-all duration-500 ease-in-out flex items-center justify-center w-16 h-16 order-1', animationHeaderLogo,
+            'relative text-xl font-bold transition-all duration-500 ease-in-out flex items-center justify-center w-16 h-16 order-1', animationHeaderLogo,
             'md:w-32 md:h-32'
         ]"
     >
         <a href=""><img :src="$getImageUrl('/img/logo/log-1.png')" alt="Areostil logo" class=""></a>
+        <span class="absolute inset-0 w-[100%] h-[100%] -z-10 bg-my_black blur-2xl opacity-50 rounded-full"></span>
     </div>
 </template>
 

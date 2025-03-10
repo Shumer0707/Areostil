@@ -2,13 +2,14 @@
     <div>
         <!-- Затемнение -->
         <div
+            @click.self="closeFooter"
             class="fixed inset-0 bg-my_black bg-opacity-70 transition-transform duration-500"
             :class="{ 'translate-y-0': pageState.showOverlay, 'translate-y-full': !pageState.showOverlay }">
         </div>
         <!-- Футер -->
         <footer
-        class="w-full bg-my_black text-my_white py-8 px-10 md:px-36 fixed bottom-0 left-0 z-20
-               transition-transform duration-500 ease-in-out"
+        class="w-full bg-my_black text-my_white py-4 px-4 md:px-36 fixed bottom-0 left-0 z-40
+               transition-all duration-500 ease-in-out"
         :class="{ 'translate-y-0 opacity-100': pageState.showOverlay, 'translate-y-full opacity-0': !pageState.showOverlay }">
 
         <!-- Верхний блок с заголовком и кнопкой -->
@@ -26,7 +27,7 @@
         <div class="flex flex-col md:flex-row justify-between items-center gap-6 ">
 
             <!-- Логотип -->
-            <div class="flex w-1/3 items-center gap-4">
+            <div class="flex md:w-1/3 items-center gap-4">
                 <a href="/" class="block w-24">
                     <img :src="$getImageUrl('/img/logo/log-1.png')" alt="Areostil logo" class="w-full">
                 </a>
@@ -36,19 +37,27 @@
             </div>
 
             <!-- Навигация -->
-            <nav class="flex w-1/3 gap-6 text-sm font-medium justify-center">
-                <a href="/" class="hover:text-primary transition" :tabindex="pageState.showOverlay ? '0' : '-1'">{{ $t('header.home') }}</a>
-                <a href="/about" class="hover:text-primary transition" :tabindex="pageState.showOverlay ? '0' : '-1'">{{ $t('header.about') }}</a>
-                <a href="/galery" class="hover:text-primary transition" :tabindex="pageState.showOverlay ? '0' : '-1'">{{ $t('header.gallery') }}</a>
-                <a href="/contact" class="hover:text-primary transition" :tabindex="pageState.showOverlay ? '0' : '-1'">{{ $t('header.contact') }}</a>
+            <nav class="flex w-full md:w-1/3 md:gap-6 text-sm font-medium md:justify-center justify-between flex-wrap text-center">
+                <a href="/" class="hover:text-primary transition whitespace-nowrap" :tabindex="pageState.showOverlay ? '0' : '-1'">
+                    {{ $t('header.home') }}
+                </a>
+                <a href="/about" class="hover:text-primary transition whitespace-nowrap" :tabindex="pageState.showOverlay ? '0' : '-1'">
+                    {{ $t('header.about') }}
+                </a>
+                <a href="/galery" class="hover:text-primary transition whitespace-nowrap" :tabindex="pageState.showOverlay ? '0' : '-1'">
+                    {{ $t('header.gallery') }}
+                </a>
+                <a href="/contact" class="hover:text-primary transition whitespace-nowrap" :tabindex="pageState.showOverlay ? '0' : '-1'">
+                    {{ $t('header.contact') }}
+                </a>
             </nav>
 
             <!-- Контакты и соцсети -->
-            <div class="text-center  w-1/3 md:text-right ">
+            <div class="flex md:w-1/3 md:text-center md:text-right justify-center flex-col">
                 <p class="text-sm">Phone: <a href="tel:+373987456321" class="hover:text-primary">+373 987 456 321</a></p>
                 <p class="text-sm">Email: <a href="mailto:areostil@mail.com" class="hover:text-primary">areostil@mail.ru</a></p>
 
-                <div class="flex justify-center md:justify-end gap-4 mt-3">
+                <div class="flex justify-center md:justify-end gap-4 mt-3 flex-wrap">
                     <a href="#" class="text-gray-400 hover:text-primary transition">
                         <i class="fab fa-facebook-f"></i>
                     </a>
@@ -93,6 +102,11 @@ export default {
       }
     };
 
+    const closeFooter = (event)  => {
+        pageState.toggleOverlay(false);
+        pageState.enableScroll();
+    };
+
     const handleTouchStart = (event) => {
       pageState.touchStartY = event.touches[0].clientY;
     };
@@ -122,7 +136,7 @@ export default {
     window.addEventListener('touchstart', handleTouchStart);
     window.addEventListener('touchend', handleTouchEnd);
 
-    return { pageState };
+    return { pageState, closeFooter };
   },
   beforeUnmount() {
     window.removeEventListener('wheel', this.handleScroll);

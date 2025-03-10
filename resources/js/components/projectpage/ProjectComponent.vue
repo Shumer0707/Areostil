@@ -111,7 +111,7 @@ const props = defineProps({
 });
 
 // ✅ Лог для отладки (оставил на всякий случай)
-console.log("Текущий перевод проекта:", props.project.translation);
+// console.log("Текущий перевод проекта:", props.project.translation);
 
 // ✅ Гарантированно получаем название проекта
 const projectTitle = computed(() => props.project?.translation?.title || 'Название проекта');

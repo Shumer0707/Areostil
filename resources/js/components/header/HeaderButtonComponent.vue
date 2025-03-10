@@ -8,13 +8,16 @@
             <button class="w-12 h-12"></button>
         </div>
         <button
-            @click="headerState.toggleMainMenu"
+        @click="headerState.toggleMainMenu"
             :class="[
-                'bg-transparent border-2 border-my_white text-my_white rounded-full font-bold flex items-center justify-center transition-all duration-1000 ease-in-out',
+                'relative bg-transparent border-2 border-my_white text-my_white rounded-full font-bold flex items-center justify-center transition-all duration-1000 ease-in-out',
                 animationHeaderButton === 'animation-slide-down-start-button' ? 'md:w-16 md:h-16 w-12 h-12' : 'w-16 h-16',
             ]"
         >
             ☰
+            <span class="absolute -inset-6 w-[200%] h-[200%] -z-10 bg-my_black blur-2xl rounded-full"
+            :class="[animationHeaderButton === 'animation-slide-down-start-button' ? 'opacity-0' : 'opacity-30',]"
+            ></span>
         </button>
     </div>
 </template>

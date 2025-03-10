@@ -21,18 +21,20 @@
       </div>
 
       <!-- Левый блок -->
-      <div class="relative w-4/5 lg:w-2/3 h-full flex flex-col justify-center md:px-32 px-4 z-10 text-left">
-        <h2 class="font-serif text-3xl lg:text-5xl font-bold text-my_black mb-4">{{ $t('home.about_us_title') }}</h2>
-        <p class="text-md lg:text-lg text-my_black mb-6 font-bold">
-            {{ $t('home.about_us_description') }}
-        </p>
-        <a
-            href="/about"
-            class="w-fit inline-block text-my_black font-bold border-b-2 border-b-my_pink_op hover:border-b-my_pink"
-            :tabindex="isActive ? '0' : '-1'"
-            >
-            {{ $t('home.about_us_link') }}
-        </a>
+      <div class="relative w-4/5 lg:w-2/3 h-full flex flex-col justify-center md:px-32 px-4 z-10 ">
+        <div class="bg-my_crem_op text-left p-4">
+            <h2 class="font-serif text-3xl lg:text-5xl font-bold text-my_black mb-4">{{ $t('home.about_us_title') }}</h2>
+            <p class="text-md lg:text-lg text-my_black mb-6 font-bold">
+                {{ $t('home.about_us_description') }}
+            </p>
+            <a
+                href="/about"
+                class="w-fit inline-block text-my_black font-bold border-b-2 border-b-my_pink_op hover:border-b-my_pink"
+                :tabindex="isActive ? '0' : '-1'"
+                >
+                {{ $t('home.about_us_link') }}
+            </a>
+        </div>
       </div>
 
       <!-- Правый блок -->
