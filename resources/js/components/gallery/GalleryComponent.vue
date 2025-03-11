@@ -72,6 +72,10 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-coverflow';
 
+
+import { useRoute } from 'vue-router';
+import { usePageState } from '@/store/pageState';
+
 // ✅ Корректно объявляем `props`
 const props = defineProps({
     isActive: Boolean,
@@ -107,11 +111,6 @@ const setCategory = (category) => {
 // ✅ Следим за изменением `currentCategory`
 watch(() => props.currentCategory, (newCategory) => {
     selectedCategory.value = newCategory || 'architecture';
-});
-
-// ✅ Следим за изменением `filteredProjects`
-watch(filteredProjects, (newProjects) => {
-    console.log("Отфильтрованные проекты:", newProjects);
 });
 </script>
 

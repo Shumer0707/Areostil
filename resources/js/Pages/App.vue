@@ -10,29 +10,34 @@
             class="transition-all ease-out duration-1000 will-change-transform"
             :class="{ 'opacity-100 translate-y-0': showContent, 'opacity-0 translate-y-10': !showContent }"
         >
-            <router-view /> <!-- Основной контент приложения -->
+            <router-view :key="$route.fullPath"></router-view>
         </div>
       <FooterComponent />
     </div>
   </template>
 
-  <script setup>
-  import { computed, onMounted, watch, ref } from "vue";
-  import { useLocalizationStore } from "@/store/localization";
-  import HeaderComponent from "../components/static/HeaderComponent.vue";
-  import FooterComponent from "../components/static/FooterComponent.vue";
-  import ButtonDownComponent from "../components/static/ButtonDownComponent.vue";
+<script setup>
+import { computed, watch } from "vue";
+import { useRoute } from "vue-router";
+import { useLocalizationStore } from "@/store/localization";
+
+import HeaderComponent from "../components/static/HeaderComponent.vue";
+import FooterComponent from "../components/static/FooterComponent.vue";
+import ButtonDownComponent from "../components/static/ButtonDownComponent.vue";
 import ModalSliderComponent from "../components/static/ModalSliderComponent.vue";
 
-  const localizationStore = useLocalizationStore();
-  const translationsLoaded = computed(() => Object.keys(localizationStore.translations).length > 0);
-  const showContent = ref(false);
-  // Загружаем переводы перед рендером приложения
-  watch(() => translationsLoaded.value, (newVal) => {
-    if (newVal) {
-        setTimeout(() => {
-            showContent.value = true;
-        }, 50); // Задержка 50 мс, чтобы Vue успел отрисовать компонент
-    }
- });
-  </script>
+const route = useRoute();
+const localizationStore = useLocalizationStore();
+const translationsLoaded = computed(() => Object.keys(localizationStore.translations).length > 0);
+
+// ✅ Теперь `showContent` — это computed!
+const showContent = computed(() => {
+    console.log("🔄 Проверяем showContent, translationsLoaded:", translationsLoaded.value);
+    return translationsLoaded.value; // showContent будет true, если переводы загружены
+});
+
+// ✅ Логирование для контроля
+watch(() => showContent.value, (newVal) => {
+    console.log("✅ showContent изменился:", newVal);
+});
+</script>

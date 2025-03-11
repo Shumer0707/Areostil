@@ -1,22 +1,25 @@
 <template>
     <PageWrapper :total-blocks="components.length">
-        <div
-            v-for="(component, index) in components"
-            :key="index"
-            class="w-full h-screen absolute transition-transform duration-1000 ease-in-out"
-            :class="{ 'translate-y-0': isActive(index), 'translate-y-full': !isActive(index) }"
-        >
-            <component
-                :is="component.name"
-                v-bind="component.props"
-                :isActive="isActive(index)"
-            />
-        </div>
+        <template v-if="projects.length > 0">
+            <div
+                v-for="(component, index) in components"
+                :key="index"
+                class="w-full h-screen absolute transition-transform duration-1000 ease-in-out"
+                :class="{ 'translate-y-0': isActive(index), 'translate-y-full': !isActive(index) }"
+            >
+                <component
+                    :is="component.name"
+                    v-bind="component.props"
+                    :isActive="isActive(index)"
+                />
+            </div>
+        </template>
+        <!-- <p v-else class="text-center text-gray-500 text-xl">Загрузка...</p> -->
     </PageWrapper>
 </template>
 
 <script setup>
-import { ref, onMounted, watch, markRaw } from 'vue';
+import { ref, onMounted, watch, markRaw, computed  } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 import { usePageState } from '@/store/pageState';
@@ -54,12 +57,12 @@ watch(() => route.params.category, (newCategory) => {
 });
 
 // Список динамических компонентов
-const components = ref([
+const components = computed(() => [
     {
         name: markRaw(GalleryComponent),
         props: {
-            currentCategory,
-            projects,
+            currentCategory: currentCategory.value,
+            projects: projects.value,
         }
     }
 ]);
@@ -73,8 +76,7 @@ const addComponent = (component, props = {}) => {
 };
 
 onMounted(() => {
-    console.log(components.value.length);
-
+    // console.log(components.value.length);
     pageState.updateTotalBlocks(components.value.length);
 });
 
