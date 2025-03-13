@@ -21,10 +21,10 @@ import { computed, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useLocalizationStore } from "@/store/localization";
 
-import HeaderComponent from "../components/static/HeaderComponent.vue";
-import FooterComponent from "../components/static/FooterComponent.vue";
-import ButtonDownComponent from "../components/static/ButtonDownComponent.vue";
-import ModalSliderComponent from "../components/static/ModalSliderComponent.vue";
+import HeaderComponent from "../Components/static/HeaderComponent.vue";
+import FooterComponent from "../Components/static/FooterComponent.vue";
+import ButtonDownComponent from "../Components/static/ButtonDownComponent.vue";
+import ModalSliderComponent from "../Components/static/ModalSliderComponent.vue";
 
 const route = useRoute();
 const localizationStore = useLocalizationStore();
