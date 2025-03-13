@@ -174,9 +174,9 @@ class ProjectAdminController extends Controller
 
     public function uploadImage(Request $request, $id)
     {
-        $request->validate([
+        $validated = $request->validate([
             'images' => 'required|array', // ✅ Проверяем, что пришёл массив файлов
-            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // ✅ Каждое изображение проходит валидацию
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048', // ✅ Каждое изображение проходит валидацию
         ]);
 
         $project = Project::findOrFail($id);
@@ -191,7 +191,10 @@ class ProjectAdminController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('success', 'Изображения загружены.');
+        return back()->with([
+            'success' => 'Изображения загружены.',
+            'uploadedImages' => $uploadedImages, // ✅ Возвращаем загруженные файлы (если нужно)
+        ]);
     }
 
     public function deleteImage($id, $imageId)

@@ -23,8 +23,8 @@
 
       <!-- Блок с цифрами справа -->
       <div class="absolute md:right-0 md:w-1/4 h-1/5 md:h-full flex md:flex-col z-10 bg-my_crem_op items-center justify-between p-4 md:pt-32 md:pb-16">
-        <div class="md:flex hidden flex-col items-center justify-center">
-          <h2 class="text-1xl md:text-5xl font-bold text-my_black mb-4 select-none">{{ counter1 }}<span class="text-my_pink">+</span></h2>
+        <div class="md:flex hidden flex-col items-center justify-center select-none">
+          <h2 class="text-1xl md:text-5xl font-bold text-my_black mb-4">{{ counter1 }}<span class="text-my_pink">+</span></h2>
           <p class="text-md md:text-lg text-my_black mb-6 font-bold">{{ $t('about.about_1_clients') }}</p>
         </div>
         <div class="flex flex-col items-center justify-center select-none">
@@ -120,10 +120,12 @@
         img1Class.value = imgClassAll.img1[0];
         img2Class.value = imgClassAll.img2[0];
         img3Class.value = imgClassAll.img3[0];
+        setTimeout(() => {
         counter1.value = 0;
         counter2.value = 0;
         counter3.value = 0;
         counter4.value = 0;
+        },1000);
       }
     }, { flush: "post" }
   );

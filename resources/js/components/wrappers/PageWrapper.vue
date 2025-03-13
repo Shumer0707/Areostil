@@ -39,6 +39,28 @@ const backgrounds = [
 // ✅ Выбираем случайный фон
 const randomBackground = computed(() => backgrounds[Math.floor(Math.random() * backgrounds.length)]);
 
+// 🔹 Функция для остановки анимации (при уходе со страницы)
+const pauseAnimation = () => {
+    const bg = document.querySelector('.animate-background-move');
+    if (bg) {
+        const computedStyle = window.getComputedStyle(bg);
+        bg.style.animationPlayState = 'paused'; // Приостанавливаем анимацию
+        bg.style.transform = computedStyle.transform; // Сохраняем положение
+        bg.dataset.lastTransform = computedStyle.transform; // Запоминаем трансформацию
+    }
+};
+
+// 🔹 Функция для продолжения анимации (при возвращении)
+const resumeAnimation = () => {
+    const bg = document.querySelector('.animate-background-move');
+    if (bg) {
+        bg.style.animationPlayState = 'running'; // Запускаем анимацию
+        if (bg.dataset.lastTransform) {
+            bg.style.transform = bg.dataset.lastTransform; // Восстанавливаем положение
+        }
+    }
+};
+
 // ✅ Переключение блоков
 const nextBlock = () => {
     if (!pageState.scrollDisabled && pageState.currentBlock < props.totalBlocks - 1) {
@@ -93,6 +115,15 @@ onMounted(() => {
     window.addEventListener("wheel", handleScroll);
     window.addEventListener("touchstart", handleTouchStart);
     window.addEventListener("touchend", handleTouchEnd);
+
+    // 🔥 Отслеживаем переключение вкладок
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            pauseAnimation();
+        } else {
+            resumeAnimation();
+        }
+    });
 });
 
 // ✅ Очищаем обработчики событий при размонтировании
@@ -100,8 +131,11 @@ onBeforeUnmount(() => {
     window.removeEventListener("wheel", handleScroll);
     window.removeEventListener("touchstart", handleTouchStart);
     window.removeEventListener("touchend", handleTouchEnd);
+    document.removeEventListener("visibilitychange", pauseAnimation);
+    document.removeEventListener("visibilitychange", resumeAnimation);
 });
 </script>
+
 
 <style scoped>
 @keyframes background-move {

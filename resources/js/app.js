@@ -23,10 +23,22 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         const app = createApp({ render: () => h(App, props) });
 
+        // Отключаем логи Pinia в продакшн-режиме
+        // const pinia = createPinia();
+        // if (import.meta.env.MODE === 'production') {
+            console.log = (...args) => {
+                if (args[0]?.includes?.('🍍')) return; // Блокируем Pinia-логи
+                console.info(...args); // Разрешаем остальные логи
+            };
+        // }
+        // pinia.use(() => ({ debug: false }));
+
         app.use(plugin);
         app.use(ZiggyVue, Ziggy);
         app.use(createPinia());
         app.use(router);
+
+
 
         app.config.globalProperties.route = (name, params = {}) => {
             try {

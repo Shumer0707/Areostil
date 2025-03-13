@@ -7,31 +7,63 @@ const props = defineProps({
     images: Array,
 });
 
-// Массив файлов
+// Состояния
 const files = ref([]);
+const errorMessage = ref(null); // Храним ошибки
 
+// Форма
 const form = useForm({
-    images: [], // Теперь массив файлов
+    images: [],
 });
 
 // Обработчик загрузки файлов
 const handleFiles = (event) => {
-    files.value = Array.from(event.target.files); // Преобразуем FileList в массив
+    const selectedFiles = Array.from(event.target.files);
+
+    // Разрешенные типы файлов (добавляем webp)
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp'];
+    const maxSize = 2 * 1024 * 1024; // 2MB
+
+    files.value = selectedFiles.filter(file => {
+        if (!allowedTypes.includes(file.type)) {
+            alert(`Файл ${file.name} имеет недопустимый формат!`);
+            return false;
+        }
+        if (file.size > maxSize) {
+            alert(`Файл ${file.name} превышает 2MB!`);
+            return false;
+        }
+        return true;
+    });
+
+    event.target.value = ''; // Очищаем input после выбора
 };
 
 // Функция загрузки файлов
 const uploadImages = () => {
-    const formData = new FormData();
+    if (!files.value.length) {
+        errorMessage.value = 'Выберите файлы для загрузки!';
+        return;
+    }
 
-    // Добавляем каждый файл в FormData
-    files.value.forEach((file, index) => {
-        formData.append(`images[${index}]`, file);
+    errorMessage.value = null; // Очищаем ошибки перед отправкой
+
+    const formData = new FormData();
+    files.value.forEach(file => {
+        formData.append('images[]', file);
     });
 
-    // Отправляем файлы на сервер
     router.post(`/admin/projects/${props.project.id}/images`, formData, {
         onSuccess: () => {
-            files.value = []; // Очищаем файлы после успешной загрузки
+            files.value = [];
+            errorMessage.value = null; // Очищаем ошибки после успешной загрузки
+        },
+        onError: (errors) => {
+            console.log("Ошибки с сервера:", errors);
+
+            // Собираем все ошибки валидации
+            const errorMessages = Object.values(errors).flat();
+            errorMessage.value = errorMessages.join(', ');
         }
     });
 };
@@ -70,6 +102,20 @@ const setAsCover = (id) => {
                 </button>
             </form>
 
+            <!-- Ошибки валидации -->
+            <div v-if="errorMessage" class="text-red-500 mb-4">
+                {{ errorMessage }}
+            </div>
+
+            <!-- Показываем выбранные файлы перед загрузкой -->
+            <div v-if="files.length" class="mb-4">
+                <p class="text-gray-600">Выбранные файлы:</p>
+                <ul class="list-disc pl-5">
+                    <li v-for="file in files" :key="file.name">{{ file.name }} ({{ (file.size / 1024).toFixed(1) }} KB)</li>
+                </ul>
+            </div>
+
+            <!-- Галерея загруженных изображений -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div
                     v-for="image in images"
