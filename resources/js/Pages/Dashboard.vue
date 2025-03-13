@@ -14,7 +14,7 @@ import { Head, Link } from '@inertiajs/vue3';
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
             <!-- Карточка для проектов -->
             <div class="bg-white p-6 rounded-lg shadow">
-                <h3 class="text-lg font-semibold mb-4">Проекты</h3>
+                <h3 class="text-lg font-semibold mb-4">Ваши проекты</h3>
                 <p class="text-gray-600 mb-4">Управление вашими проектами</p>
                 <Link
                     href="/admin/projects"
