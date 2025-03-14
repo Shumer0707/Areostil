@@ -1,7 +1,7 @@
 <template>
     <div
         :class="[
-            'relative text-xl font-bold transition-all duration-500 ease-in-out flex items-center justify-center w-16 h-16 order-1', animationHeaderLogo,
+            'relative text-xl font-bold transition-all duration-500 ease-in-out flex items-center justify-center w-16 h-16 order-1 pointer-events-auto', animationHeaderLogo,
             'md:w-32 md:h-32'
         ]"
     >

@@ -1,7 +1,7 @@
 <template>
     <div
         :class="[
-            'relative flex gap-8 transition-all duration-1000 ease-in-out items-center order-2', animationHeaderButton
+            'relative flex gap-8 transition-all duration-1000 ease-in-out items-center order-2 pointer-events-auto', animationHeaderButton
         ]"
     >
         <div class="hidden">

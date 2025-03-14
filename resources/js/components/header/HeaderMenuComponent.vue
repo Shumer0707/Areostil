@@ -1,7 +1,7 @@
 <template>
     <div ref="menuRef"
         :class="['absolute  flex bg-my_black shadow-lg transition-all duration-500 ease-in-out opacity-100 md:opacity-80 text-xl font-normal',
-            'hover:opacity-100',
+            'hover:opacity-100 pointer-events-auto',
             isTop ? 'top-100 md:right-16 right-4 pt-0' : 'flex-col h-screen top-0 w-64 md:right-32 right-16 pt-6'
         ]"
         v-if="headerState.isMainMenuVisible"
