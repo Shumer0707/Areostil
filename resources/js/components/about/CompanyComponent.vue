@@ -63,9 +63,9 @@
 
   // ✅ Максимальные значения
   const max1 = 100;
-  const max2 = 25000;
-  const max3 = 15000;
-  const max4 = 21;
+  const max2 = 15000;
+  const max3 = 25000;
+  const max4 = 17;
   const duration = 2000;
 
   // ✅ Реактивные классы для анимации изображений

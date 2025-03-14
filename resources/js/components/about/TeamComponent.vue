@@ -6,9 +6,14 @@
                 <img :src="$getImageUrl('/img/about/people-9.webp')" alt="team-1" class="w-2/4 md:w-1/4 h-full object-cover" />
                 <div class="flex flex-col items-center justify-center w-3/4 h-full">
                     <h2 class="text-1xl lg:text-5xl font-bold text-my_black mb-4 text-center">{{ $t('about.about_2_name_1') }}</h2>
-                    <p class="text-sm lg:text-lg text-my_black mb-6 font-bold text-center">
+                    <p class="text-sm lg:text-lg text-my_black mb-4 font-bold text-center">
                         {{ $t('about.about_2_description_1') }}
                     </p>
+                    <div class="flex justify-center md:justify-end gap-4 flex-wrap text-my_pink text-lg">
+                        <a href="#" class="text-my_black hover:text-primary transition opacity-50 pointer-events-none"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-my_black hover:text-primary transition opacity-50 pointer-events-none"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-my_black hover:text-primary transition opacity-50 pointer-events-none"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
                 </div>
             </div>
             <div :class="['absolute bg-my_crem_op p-4 w-4/5 md:w-2/3 h-1/3 flex items-center justify-center shadow-2xl overflow-hidden transition-all duration-1000',
@@ -16,9 +21,14 @@
                 <img :src="$getImageUrl('/img/about/people-10.webp')" alt="team-2" class="w-2/4 md:w-1/4 h-full object-cover" />
                 <div class="flex flex-col items-center justify-center w-3/4 h-full">
                     <h2 class="text-1xl lg:text-5xl font-bold text-my_black mb-4 text-center">{{ $t('about.about_2_name_2') }}</h2>
-                    <p class="text-sm lg:text-lg text-my_black mb-6 font-bold text-center">
+                    <p class="text-sm lg:text-lg text-my_black mb-4 font-bold text-center">
                         {{ $t('about.about_2_description_2') }}
                     </p>
+                    <div class="flex justify-center md:justify-end gap-4 flex-wrap text-my_pink text-lg">
+                        <a href="https://www.facebook.com/arhkaa" class="text-my_black hover:text-primary transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-my_black hover:text-primary transition opacity-50 pointer-events-none"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-my_black hover:text-primary transition opacity-50 pointer-events-none"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
                 </div>
             </div>
             <div :class="['absolute bg-my_crem_op p-4 w-4/5 h-1/3 flex items-center justify-center shadow-2xl overflow-hidden transition-all duration-1000',
@@ -26,9 +36,14 @@
                 <img :src="$getImageUrl('/img/about/people-11.webp')" alt="team-3" class="w-2/4 md:w-1/4 h-full object-cover" />
                 <div class="flex flex-col items-center justify-center w-3/4 h-full">
                     <h2 class="text-1xl lg:text-5xl font-bold text-my_black mb-4 text-center">{{ $t('about.about_2_name_3') }}</h2>
-                    <p class="text-sm lg:text-lg text-my_black mb-6 font-bold text-center">
+                    <p class="text-sm lg:text-lg text-my_black mb-4 font-bold text-center">
                         {{ $t('about.about_2_description_3') }}
                     </p>
+                    <div class="flex justify-center md:justify-end gap-4 flex-wrap text-my_pink text-lg">
+                        <a href="#" class="text-my_black hover:text-primary transition opacity-50 pointer-events-none"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-my_black hover:text-primary transition opacity-50 pointer-events-none"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-my_black hover:text-primary transition opacity-50 pointer-events-none"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
                 </div>
             </div>
         <!-- </div> -->

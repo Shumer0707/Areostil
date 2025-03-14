@@ -30,7 +30,7 @@
         </div>
 
         <!-- Галерея Swiper (1/3 экрана) -->
-        <div v-if="project.images.length > 0" class="bg-my_crem_op w-full h-1/3 relative flex items-center py-8">
+        <div v-if="imagesWithLoading.length" class="bg-my_crem_op w-full h-1/3 relative flex items-center py-8">
             <Swiper
                 effect="coverflow"
                 navigation
@@ -39,91 +39,68 @@
                 watchOverflow
                 centeredSlides
                 :spaceBetween="30"
-                :breakpoints="{
-                    320: { slidesPerView: 2 },
-                    640: { slidesPerView: 3 },
-                    1024: { slidesPerView: 4 }
-                }"
-                :coverflowEffect="{
-                    rotate: 30,
-                    stretch: 0,
-                    depth: 200,
-                    modifier: 1,
-                    slideShadows: true
-                }"
+                :breakpoints="{320: { slidesPerView: 2 },640: { slidesPerView: 3 },1024: { slidesPerView: 4 }}"
+                :coverflowEffect="{ rotate: 30, stretch: 0, depth: 200, modifier: 1, slideShadows: true }"
                 class="h-full w-full"
             >
-                <SwiperSlide v-for="(image, index) in project.images" :key="image.id">
-                    <div class="relative w-full h-full">
+                <SwiperSlide v-for="(image, index) in imagesWithLoading" :key="image.id">
+                    <div class="relative w-full h-full overflow-hidden"
+                        :class="{ 'bg-my_gray_op animate-pulse': !image.loaded }">
                         <img
                             :src="image.image_path"
                             alt="Project image"
-                            class="w-full h-full object-cover shadow-lg hover:scale-110 transition-all duration-500 cursor-pointer"
+                            loading="lazy"
+                            class="w-full h-full object-cover shadow-lg transition-all duration-500 cursor-pointer hover:scale-110"
+                            :class="image.loaded ? 'opacity-100' : 'opacity-0'"
+                            @load="image.loaded = true"
                             @click="openImageModal(index)"
                         />
                     </div>
                 </SwiperSlide>
             </Swiper>
         </div>
-
-        <!-- <div v-if="isModalOpen" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[10000]">
-            <div class="relative w-full max-w-5xl h-[80vh] bg-white p-4 rounded-lg shadow-lg z-[9999]">
-
-                <button @click="closeModal" class="cursor-pointer absolute top-4 right-4 text-my_black text-5xl z-[9999]">&times;</button>
-
-                <Swiper
-                    :modules="[Navigation, Pagination]"
-                    navigation
-                    :pagination="{ clickable: true }"
-                    loop
-                    :initialSlide="activeSlide"
-                    class="w-full h-full"
-                >
-                    <SwiperSlide v-for="image in project.images" :key="image.id">
-                        <div class="w-full h-full flex items-center justify-center">
-                            <img
-                                :src="image.image_path"
-                                alt="Enlarged image"
-                                class="max-w-full max-h-full object-contain"
-                            />
-                        </div>
-                    </SwiperSlide>
-                </Swiper>
-            </div>
-        </div> -->
     </div>
 </template>
 
 <script setup>
 import { useModalStore } from '@/store/modalStore';
-import { ref, computed } from 'vue';
+import { ref, computed, watchEffect, toRef } from 'vue';
 import SwiperCore from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation, Pagination, EffectCoverflow } from 'swiper';
-SwiperCore.use([Navigation, Pagination, EffectCoverflow]);
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-coverflow';
 
+SwiperCore.use([Navigation, Pagination, EffectCoverflow]);
+
 const props = defineProps({
     project: Object
 });
 
-// ✅ Лог для отладки (оставил на всякий случай)
-// console.log("Текущий перевод проекта:", props.project.translation);
+const projectRef = toRef(props, 'project');
 
-// ✅ Гарантированно получаем название проекта
-const projectTitle = computed(() => props.project?.translation?.title || 'Название проекта');
-
-// ✅ Гарантированно получаем описание проекта
-const projectDescription = computed(() => props.project?.translation?.short_desc || 'Описание проекта пока недоступно.');
+// Название и описание проекта
+const projectTitle = computed(() => projectRef.value?.translation?.title || 'Название проекта');
+const projectDescription = computed(() => projectRef.value?.translation?.short_desc || 'Описание проекта пока недоступно.');
 
 const modalStore = useModalStore();
-
 const openImageModal = (index) => {
     modalStore.openModal(index, props.project.images);
 };
 
+// Реактивный массив с состоянием загрузки изображений
+const imagesWithLoading = ref([]);
+
+// Обрабатываем массив изображений, добавляя поле loaded
+watchEffect(() => {
+    imagesWithLoading.value = (projectRef.value?.images || []).map(img => ({
+        ...img,
+        loaded: false,
+    }));
+});
+
 </script>
+
 

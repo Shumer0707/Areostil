@@ -58,15 +58,9 @@
                 <p class="text-sm">Email: <a href="mailto:areostil@mail.com" class="hover:text-primary">areostil@mail.ru</a></p>
 
                 <div class="flex justify-center md:justify-end gap-4 mt-3 flex-wrap">
-                    <a href="#" class="text-gray-400 hover:text-primary transition">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-primary transition">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-primary transition">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
+                    <a href="#" class="text-my_white hover:text-primary transition opacity-50 pointer-events-none"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-my_white hover:text-primary transition opacity-50 pointer-events-none"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-my_white hover:text-primary transition opacity-50 pointer-events-none"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
 

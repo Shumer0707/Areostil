@@ -27,7 +27,6 @@ const pageState = usePageState();
 const components = markRaw([ProjectComponent]);
 
 const isActive = (index) => pageState.currentBlock === index;
-console.log("Перешли нп projectPageComponent, жму назад");
 
 // ✅ Загружаем проект при монтировании
 onMounted(async () => {

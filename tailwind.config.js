@@ -35,6 +35,8 @@ export default {
                 my_pink: 'rgba(244, 63, 94)',
                 my_pink_op: 'rgba(244, 63, 94, 0.3)',
                 my_crem: 'rgba(117, 110, 106)',
+                my_crem_1: 'rgba(148, 142, 139)',
+                my_crem_2: 'rgba(110, 99, 93)',
                 my_crem_op: 'rgba(117, 110, 106, 0.7)',
             },
             transitionDelay: {
